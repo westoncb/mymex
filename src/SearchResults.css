@@ -1,0 +1,21 @@
+.results-panel {
+    position: relative;
+    top: 10px;
+    left: 0px;
+    box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.result-path {
+    color: #bbb;
+    font-size: 0.9rem;
+    text-align: left;
+    padding-left: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.result-section {
+    border-bottom: 4px solid #eee;
+    padding-bottom: 1.5rem;
+    padding-top: 0.5rem;
+}

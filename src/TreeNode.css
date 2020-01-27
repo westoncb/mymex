@@ -1,0 +1,171 @@
+.node {
+    color: #555;
+}
+
+.thumbnail {
+    width: 5rem;
+    height: 5rem;
+}
+
+.node-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    background-color: white;
+    margin: 0.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.06);
+    transition: all 0.2s;
+    height: 3rem;
+    cursor: pointer;
+}
+
+.node-label:hover {
+    background-color: #eeeeff;
+    transition: all 0.2s;
+}
+
+.left-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.5rem;
+    padding-left: 1rem;
+}
+
+.right-section {
+    display: flex;
+    flex-direction: row;
+}
+
+.node-text {
+    margin-left: 1rem;
+}
+
+.leaf-label {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0.5rem;
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.06);
+    transition: all 0.2s;
+    height: 14rem;
+    width: 14rem;
+    margin: 0.5rem;
+    margin: 0.5rem;
+    /* white-space: nowrap; */
+    /* overflow: hidden; */
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.leaf-label:hover {
+    background-color: #eeeeff;
+    transition: all 0.2s;
+}
+
+.leaf-text {
+    font-size: 0.9rem;
+    color: #666;
+    flex-shrink: 1;
+    flex-grow: 0;
+}
+
+.leaf-thumbnail {
+    min-width: 12rem;
+    min-height: 8rem;
+    background-color: #666;
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+}
+
+.folder-children {
+
+}
+
+.leaf-children {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0.5rem;
+}
+
+.meta-panel {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.06);
+    position: absolute;
+    top: 0;
+    left: 15rem;
+    background-color: white;
+    width: 25rem;
+    height: 15rem;
+    visibility: hidden;
+    cursor: default;
+    z-index: 100;
+}
+
+.meta-top {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    border-bottom: 2px solid #eee;
+    text-align: left;
+    padding: 1rem;
+}
+
+.meta-bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 2rem;
+    padding: 0.5rem;
+    flex-grow: 0;
+}
+
+.meta-bottom-left {
+    display: flex;
+    flex-direction: row;
+}
+
+.meta-bottom-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.notes-editor {
+    flex-grow: 1;
+    border: 1px solid #eee;
+    padding: 0.5rem;
+    cursor: default;
+}
+
+.tag {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    background-color: rgb(81, 188, 245);
+    border-radius: 5px;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+    padding: 0.25rem;
+}
+
+.add-tag-button {
+    font-size: 1rem;
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.add-tag-button:hover {
+    background-color: #ccc;
+}
