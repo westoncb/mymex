@@ -41,6 +41,7 @@ export default class SearchResults extends PureComponent {
                                 node={result}
                                 collapsed={result.type === 'folder'}
                                 depth={0}
+                                openItemFunc={this.props.openItemFunc}
                             />
                         </div>
                     ))}

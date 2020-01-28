@@ -13,18 +13,20 @@ export default class TreeNode extends PureComponent {
             depth: props.depth,
             hasMouse: false
         };
-
-        this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick(e) {
+    handleFolderClick = (e) => {
         e.stopPropagation()
 
-        if (!this.isLeaf()) {
-            this.setState((state, props) => {
-                return { collapsed: !state.collapsed }
-            })
-        }
+        this.setState((state, props) => {
+            return { collapsed: !state.collapsed }
+        })
+    }
+
+    handleLeafClick = (e) => {
+        e.stopPropagation()
+
+        this.props.openItemFunc(this.state.node)
     }
 
     isLeaf() {
@@ -60,9 +62,9 @@ export default class TreeNode extends PureComponent {
 
         return (
             
-        <div className="node" onClick={this.handleClick} style={{marginLeft: this.state.depth*2 + "rem"}}>
+        <div className="node" style={{marginLeft: this.state.depth*2 + "rem"}}>
                 {this.isLeaf() && 
-                    <div className="leaf-label" onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseExit}>
+                    <div className="leaf-label" onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseExit} onClick={this.handleLeafClick}>
                         <div className="leaf-thumbnail"></div>
                         <div className='leaf-text'>{this.props.node.name}</div>
                         <div className="meta-panel" style={{visibility: this.state.hasMouse ? "visible" : "hidden"}}>
@@ -91,7 +93,7 @@ export default class TreeNode extends PureComponent {
                 }
 
                 {!this.isLeaf() && this.props.node.guid &&
-                    <div className="node-label">
+                    <div className="node-label" onClick={this.handleFolderClick}>
                         <div className="left-section">
                             {nodeIcon}
                             <div className='node-text'>{this.props.node.name}</div>
@@ -108,6 +110,7 @@ export default class TreeNode extends PureComponent {
                                     node={child}
                                     collapsed={child.type === 'folder'}
                                     depth={this.state.depth + 1}
+                                    openItemFunc={this.props.openItemFunc}
                                 />
                             ))}
                         </div>
@@ -119,6 +122,7 @@ export default class TreeNode extends PureComponent {
                                     node={child}
                                     collapsed={child.type === 'folder'}
                                     depth={this.state.depth + 1}
+                                    openItemFunc={this.props.openItemFunc}
                                 />
                             ))}
                         </div>

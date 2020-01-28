@@ -103,7 +103,7 @@ export default class SearchWidget extends PureComponent {
         return (
             <div className="search-widget-container" onFocus={this.handleFocus} onBlur={this.handleBlur}>
                 <input className="search-input" type="text" ref={this.textInput} onChange={this.handleTextChange}/>
-                <SearchResults results={this.state.results} visible={this.state.inputFocused}/>
+                <SearchResults results={this.state.results} visible={this.state.inputFocused} openItemFunc={this.props.openItemFunc}/>
             </div>
         )
     }

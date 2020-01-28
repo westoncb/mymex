@@ -3,7 +3,8 @@
     top: 0;
     left: 0;
     right: 0;
-    margin: 1rem 5rem 1rem 5rem;
+    padding: 3rem;
+    padding-left: 6rem;
 }
 
 .search-input {
