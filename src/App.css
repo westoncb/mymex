@@ -1,3 +1,7 @@
+@import "~normalize.css";
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+
 #root {
   position: absolute;
   top: 0;
@@ -7,14 +11,19 @@
 .App {
   display: flex;
   flex-direction: row;
+  height: 100vh;
+  width: 100vw;
 }
 
 .right-column {
   text-align: center;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  flex-grow: 1;
 }
 
 .App-header {
-  background-color: #222;
+  background-color: #30404d;
   height: 150px;
   color: white;
 }

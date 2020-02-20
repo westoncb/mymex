@@ -26,25 +26,25 @@ export default class SearchResults extends PureComponent {
         return (
             <div>
                 {(this.props.visible) &&
-                    <div className="results-panel">
+                    <div className="results-panel-parent">
+                        <div className="results-panel">
 
-                    {console.log("props results", this.props.results)}
+                            {this.props.results.map((result, i) => (
+                                <div key={result.id} className="result-section">
+                                    <div className="result-path">
+                                        {result.path}
+                                    </div>
 
-                    {this.props.results.map((result, i) => (
-                        <div key={result.id} className="result-section">
-                            <div className="result-path">
-                                {result.path}
-                            </div>
-
-                            <TreeNode
-                                key={result.guid}
-                                node={result}
-                                collapsed={result.type === 'folder'}
-                                depth={0}
-                                openItemFunc={this.props.openItemFunc}
-                            />
+                                    <TreeNode
+                                        key={result.guid}
+                                        node={result}
+                                        collapsed={result.type === 'folder'}
+                                        depth={0}
+                                        openItemFunc={this.props.openItemFunc}
+                                    />
+                                </div>
+                            ))}
                         </div>
-                    ))}
                     </div>
                 }
             </div>

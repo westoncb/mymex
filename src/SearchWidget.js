@@ -2,7 +2,8 @@ import React, { PureComponent } from "react";
 import SearchResults from './SearchResults.js';
 import Util from './Util.js';
 import './SearchWidget.css'
-
+import { Icon, Button } from "@blueprintjs/core";
+import { IconNames } from "@blueprintjs/icons";
 
 export default class SearchWidget extends PureComponent {
     constructor(props) {
@@ -10,7 +11,7 @@ export default class SearchWidget extends PureComponent {
         this.state = {
             results: props.results || [bookmarksTree],
             inputFocused: false
-        };
+        }
 
         this.handleFocus = this.handleFocus.bind(this)
         this.handleBlur = this.handleBlur.bind(this)
@@ -102,8 +103,14 @@ export default class SearchWidget extends PureComponent {
     render() {
         return (
             <div className="search-widget-container" onFocus={this.handleFocus} onBlur={this.handleBlur}>
-                <input className="search-input" type="text" ref={this.textInput} onChange={this.handleTextChange}/>
-                <SearchResults results={this.state.results} visible={this.state.inputFocused} openItemFunc={this.props.openItemFunc}/>
+                <div className="input-results-group">
+                  <input className="search-input" type="text" ref={this.textInput} onChange={this.handleTextChange} />
+                  <SearchResults results={this.state.results} visible={this.state.inputFocused} openItemFunc={this.props.openItemFunc} />
+                </div>
+
+              <Button>
+                 <Icon icon={IconNames.DIAGRAM_TREE} iconSize={42} />
+              </Button>
             </div>
         )
     }
