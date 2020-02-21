@@ -1,7 +1,14 @@
 class DataStore {
+    static init() {
+        DataStore.dataSources = []
+    }
     
     static getDataSources() {
-        return []
+        return DataStore.dataSources
+    }
+
+    static addDataSource(info) {
+        DataStore.dataSources = DataStore.dataSources.concat(info)
     }
 }
 

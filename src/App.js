@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import './App.css';
 import SearchWidget from './SearchWidget';
 import OpenTray from './OpenTray';
+import DataStore from './DataStore'
 
 class App extends Component {
   constructor(props) {
     super(props)
+
+    DataStore.init()
 
     this.state = {openItems: []}
   }

@@ -1,3 +1,23 @@
 .data-source-control-group {
     margin-top: 1rem;
 }
+
+.data-source-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-y: auto;
+    max-height: 20rem;
+}
+
+.data-source-item {
+    padding: 1rem;
+    background-color: #394b59;
+    width: 80%;
+    height: 5rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    flex-shrink: 0;
+    box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.15);
+}

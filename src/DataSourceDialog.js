@@ -14,9 +14,13 @@ class DataSourceDialog extends PureComponent {
         }
     }
 
-    handleSourceTypeChange = event => {
-        console.log("event", event.target.value)
-        this.setState({ selectedSourceType: event.target.value })
+    handleSourceTypeChange = event => this.setState({ selectedSourceType: event.target.value })
+
+    handleAddSourceButton = () => {
+        DataStore.addDataSource({name: this.state.selectedSourceType})
+
+        this.setState({ dataSources: [] })
+        this.setState({dataSources: DataStore.getDataSources()})
     }
 
     render() {
@@ -28,6 +32,11 @@ class DataSourceDialog extends PureComponent {
                 title="No data sources"
                 description="No data sources have been added yet"
             />
+        } else {
+            mainSection = 
+                <div className="data-source-list">
+                {this.state.dataSources.map(ds => <div className="data-source-item" key={ds}>{ds.name}</div>)}
+                </div>
         }
 
         return (
@@ -50,7 +59,7 @@ class DataSourceDialog extends PureComponent {
                             <Radio label="Chrome bookmarks file" value="chrome"></Radio>
                             <Radio label="File system location" value="fs"></Radio>
                         </RadioGroup>
-                        <Button><Icon icon={IconNames.ADD} iconSize={42}/></Button>
+                        <Button onClick={this.handleAddSourceButton}><Icon icon={IconNames.ADD} iconSize={42}/></Button>
                     </ControlGroup>
                 </div>
 
