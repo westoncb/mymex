@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import SearchResults from './SearchResults.js';
+import DataSourceDialog from './DataSourceDialog';
 import Util from './Util.js';
 import './SearchWidget.css'
 import { Icon, Button } from "@blueprintjs/core";
@@ -10,7 +11,8 @@ export default class SearchWidget extends PureComponent {
         super(props);
         this.state = {
             results: props.results || [bookmarksTree],
-            inputFocused: false
+            inputFocused: false,
+            isDialogOpen: false
         }
 
         this.handleFocus = this.handleFocus.bind(this)
@@ -18,6 +20,8 @@ export default class SearchWidget extends PureComponent {
         this.handleTextChange = this.handleTextChange.bind(this)
 
         this.textInput = React.createRef();
+
+        
     }
 
     handleFocus(e) {
@@ -100,6 +104,9 @@ export default class SearchWidget extends PureComponent {
         return groupedChildrenResults
     }
 
+   handleOpen = () => this.setState({ isDialogOpen: true })
+   handleClose = () => this.setState({ isDialogOpen: false })
+
     render() {
         return (
             <div className="search-widget-container" onFocus={this.handleFocus} onBlur={this.handleBlur}>
@@ -108,9 +115,10 @@ export default class SearchWidget extends PureComponent {
                   <SearchResults results={this.state.results} visible={this.state.inputFocused} openItemFunc={this.props.openItemFunc} />
                 </div>
 
-              <Button>
+              <Button style={{flexShrink: 0}} onClick={this.handleOpen}>
                  <Icon icon={IconNames.DIAGRAM_TREE} iconSize={42} />
               </Button>
+              <DataSourceDialog isOpen={this.state.isDialogOpen} handleClose={this.handleClose}></DataSourceDialog>
             </div>
         )
     }
