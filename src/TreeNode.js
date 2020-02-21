@@ -70,17 +70,17 @@ export default class TreeNode extends PureComponent {
                         <div className="meta-panel" style={{visibility: this.state.hasMouse ? "visible" : "hidden"}}>
                             <div className="meta-top">
                                 <div className="notes-editor" contentEditable={true}>
-                                    Here are some notes about this item.
+                                    {/* Here are some notes about this item.
                                     <br/>
                                     <br />
-                                    It should be possible to refer to other items here with hypertext.
+                                    It should be possible to refer to other items here with hypertext. */}
                                 </div>
                             </div>
                             <div className="meta-bottom">
                                 <div className="meta-bottom-left">
                                     {
-                                        (this.props.node.tags || []).map(tag => (
-                                            <div className="tag" key={tag}>{tag}</div>
+                                    (this.props.node.tags || []).map((tag, i) => (
+                                            <div className="tag" key={tag + "" + i}>{tag}</div>
                                         ))
                                     }
                                 </div>
