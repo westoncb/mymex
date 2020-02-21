@@ -1,1 +1,12 @@
+Manage data sources dialog:
+	Screen for no data sources (maybe placeholder)
+	List sources with big preview buttons
+	Add data source 'group'
+		radio buttons for Chrome Bookmarks or Filesystem location
+		file chooser button + path display
+	Need to save/load these data sources to disk
+	Need to either do some kind of filesystem watch for changes, or periodic re-scans or data sources to keep synced.
+	Begin loading pages and rendering/saving thumbnails as soon as a new datasource is added (and when new items are found on later syncs)
 
+Content viewing
+	For remote locations, have a banner at the top indicating that you're viewing a local version, showing date of last sync, letting you select a previous version, or letting you 'view live' (which connects directly to remote version instead of just re-downloading and using local copy)
