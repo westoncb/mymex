@@ -2,7 +2,10 @@ import React, { PureComponent } from "react";
 import DataStore from "./DataStore"
 import { Icon, Button, Dialog, Intent, Classes, Tooltip, AnchorButton, NonIdealState, Divider, ControlGroup, RadioGroup, Radio } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
-import './DataSourceDialog.css'
+import './DataSourceDialog.css' 
+const electron = window.require('electron').remote
+const dialog = electron.dialog
+
 
 class DataSourceDialog extends PureComponent {
     constructor(props) {
@@ -17,10 +20,24 @@ class DataSourceDialog extends PureComponent {
     handleSourceTypeChange = event => this.setState({ selectedSourceType: event.target.value })
 
     handleAddSourceButton = () => {
-        DataStore.addDataSource({name: this.state.selectedSourceType})
+        const type = this.state.selectedSourceType
+        let resultPromise
 
-        this.setState({ dataSources: [] })
-        this.setState({dataSources: DataStore.getDataSources()})
+        if (type === 'chrome') {
+            const defaultPath = electron.app.getPath('home') + "/Library/Application Support/Google/Chrome/Default"
+            resultPromise = dialog.showOpenDialog({title: "Select Chrome bookmarks file", defaultPath, properties: ['openFile'] })
+        } else if (type === 'fs') {
+            resultPromise = dialog.showOpenDialog({title: "Choose folder", properties: ['openDirectory', 'showHiddenFiles', 'createDirectory'] })
+        }
+
+        resultPromise.then((result, err) => {
+            if (!result.canceled) {
+                const path = result.filePaths[0]
+                DataStore.addDataSource({ name: type, path })
+                
+                this.setState({ dataSources: DataStore.getDataSources() })
+            }
+        })
     }
 
     render() {
@@ -35,7 +52,7 @@ class DataSourceDialog extends PureComponent {
         } else {
             mainSection = 
                 <div className="data-source-list">
-                {this.state.dataSources.map(ds => <div className="data-source-item" key={ds}>{ds.name}</div>)}
+                {this.state.dataSources.map(ds => <div className="data-source-item" key={ds}>{ds.name}:{ds.path}</div>)}
                 </div>
         }
 
