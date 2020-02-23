@@ -10,3 +10,16 @@ Manage data sources dialog:
 
 Content viewing
 	For remote locations, have a banner at the top indicating that you're viewing a local version, showing date of last sync, letting you select a previous version, or letting you 'view live' (which connects directly to remote version instead of just re-downloading and using local copy)
+
+Read and sync flow
+	When adding data source or starting program:
+	-read in tree from data source
+	-convert to neutral tree format
+	-diff with previously stored tree for same data source
+		-go through all items in db for data source; diff is on 'location' property of elements
+	-add/remove data source elements based on diff results
+	-'location' should probably be primary key for elements
+
+	For watching file system changes use https://nodejs.org/api/fs.html#fs_fs_watch_filename_options_listener
+
+	For initial recursive traversal use: https://www.npmjs.com/package/walkdir
