@@ -3,6 +3,7 @@ import DataStore from "./DataStore"
 import { Icon, Button, Dialog, Intent, Classes, Tooltip, AnchorButton, NonIdealState, Divider, ControlGroup, RadioGroup, Radio } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import './DataSourceDialog.css' 
+import C from './constants'
 const electron = window.require('electron').remote
 const dialog = electron.dialog
 
@@ -12,9 +13,13 @@ class DataSourceDialog extends PureComponent {
         super(props)
 
         this.state = {
-            dataSources: DataStore.getDataSources(),
-            selectedSourceType: "chrome"
+            selectedSourceType: C.DS_TYPE_CHROME,
+            dataSources: []
         }
+
+        DataStore.getDataSources(dataSources => {
+            this.setState({dataSources})
+        })
     }
 
     handleSourceTypeChange = event => this.setState({ selectedSourceType: event.target.value })
@@ -23,19 +28,20 @@ class DataSourceDialog extends PureComponent {
         const type = this.state.selectedSourceType
         let resultPromise
 
-        if (type === 'chrome') {
+        if (type === C.DS_TYPE_CHROME) {
             const defaultPath = electron.app.getPath('home') + "/Library/Application Support/Google/Chrome/Default"
             resultPromise = dialog.showOpenDialog({title: "Select Chrome bookmarks file", defaultPath, properties: ['openFile'] })
-        } else if (type === 'fs') {
+        } else if (type === C.DS_TYPE_DIRECTORY) {
             resultPromise = dialog.showOpenDialog({title: "Choose folder", properties: ['openDirectory', 'showHiddenFiles', 'createDirectory'] })
         }
 
         resultPromise.then((result, err) => {
             if (!result.canceled) {
                 const path = result.filePaths[0]
-                DataStore.addDataSource({ name: type, path })
-                
-                this.setState({ dataSources: DataStore.getDataSources() })
+                DataStore.addDataSource({ name: type, path }, dataSource => {
+                    console.log("dataSources", dataSource)
+                    this.setState({ dataSources: this.state.dataSources.concat(dataSource) })
+                })
             }
         })
     }
@@ -52,7 +58,7 @@ class DataSourceDialog extends PureComponent {
         } else {
             mainSection = 
                 <div className="data-source-list">
-                {this.state.dataSources.map(ds => <div className="data-source-item" key={ds}>{ds.name}:{ds.path}</div>)}
+                {this.state.dataSources.map(ds => <div className="data-source-item" key={ds._id}>{ds.name}:{ds.path}</div>)}
                 </div>
         }
 
@@ -73,8 +79,8 @@ class DataSourceDialog extends PureComponent {
                             onChange={this.handleSourceTypeChange}
                             selectedValue={this.state.selectedSourceType}
                         >
-                            <Radio label="Chrome bookmarks file" value="chrome"></Radio>
-                            <Radio label="File system location" value="fs"></Radio>
+                            <Radio label="Chrome bookmarks file" value={C.DS_TYPE_CHROME}></Radio>
+                            <Radio label="File system location" value={C.DS_TYPE_DIRECTORY}></Radio>
                         </RadioGroup>
                         <Button onClick={this.handleAddSourceButton}><Icon icon={IconNames.ADD} iconSize={42}/></Button>
                     </ControlGroup>
