@@ -60,14 +60,6 @@ class Util {
     static getRandomTagName() {
         return Util.tagNames[Math.floor((Util.tagNames.length-1)*Math.random())]
     }
-
-    /**
-     * Returns the elements in ar1 which are not in ar2
-     */
-    static arrayDifference(ar1, ar2) {
-        const ar2Set = new Set(ar2)
-        return ar1.filter(element => !ar2Set.has(element))
-    }
 }
 
 export default Util

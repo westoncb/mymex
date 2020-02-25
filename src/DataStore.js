@@ -18,6 +18,7 @@ class DataStore {
 
         // Clear data sources
         // this.dataSourceDB.remove({}, { multi: true })
+        // this.memDB.remove({}, { multi: true })
     }
 
     static async refreshDataSource(dataSource) {
@@ -30,8 +31,9 @@ class DataStore {
 
     static async diffMemNodes(memNodes, dataSource) {
         const oldMems = await this.memDB.find({dataSource: dataSource._id})
-        const nodesToAdd = Util.arrayDifference(memNodes, oldMems)
-        const nodesToRemove = Util.arrayDifference(oldMems, memNodes)
+
+        const nodesToAdd = this.memNodesDifference(memNodes, oldMems)
+        const nodesToRemove = this.memNodesDifference(oldMems, memNodes)
 
         return {nodesToAdd, nodesToRemove}
     }
@@ -42,7 +44,7 @@ class DataStore {
         switch (dataSource.type) {
             case C.DS_TYPE_CHROME:
 
-                memNodes = await this.importChromeBookmarks(dataSource.path);
+                memNodes = await this.importChromeBookmarks(dataSource);
                 break;
             case C.DS_TYPE_DIRECTORY:
 
@@ -54,19 +56,19 @@ class DataStore {
         return memNodes
     }
 
-    static async importChromeBookmarks(path) {
-        return fs.promises.readFile(path, { encoding: "utf8" }).then(data => {
+    static async importChromeBookmarks(dataSource) {
+        return fs.promises.readFile(dataSource.path, { encoding: "utf8" }).then(data => {
             const bookmarksJSON = JSON.parse(data)
             const memNodes = []
-            this.handleChromeBMNode(bookmarksJSON.roots.bookmark_bar, memNodes)
+            this.handleChromeBMNode(bookmarksJSON.roots.bookmark_bar, memNodes, dataSource)
             
 
             return this.uniqMemNodes(memNodes)
         }, error => console.error(error))
     }
 
-    static handleChromeBMNode(bmNode, memNodes) {
-        const memNode = {name: bmNode.name, chrome_guid: bmNode.guid}
+    static handleChromeBMNode(bmNode, memNodes, dataSource) {
+        const memNode = {name: bmNode.name, chrome_guid: bmNode.guid, dataSource: dataSource._id}
 
         if (bmNode.type === "folder") {
             memNode._id = bmNode.guid
@@ -75,7 +77,7 @@ class DataStore {
             memNodes.push(memNode)
             if (bmNode.children) {
                 bmNode.children.forEach(child => {
-                    const childMemNode = this.handleChromeBMNode(child, memNodes)
+                    const childMemNode = this.handleChromeBMNode(child, memNodes, dataSource)
                     memNode.children.push(childMemNode._id)
                     childMemNode.parent = memNode._id
                 })
@@ -93,6 +95,14 @@ class DataStore {
     static uniqMemNodes(array) {
         const seen = {}
         return array.filter(memNode => seen.hasOwnProperty(memNode._id) ? false : (seen[memNode._id] = true))
+    }
+
+    /**
+     * Returns the elements in ar1 which are not in ar2
+     */
+    static memNodesDifference(array1, array2) {
+        const ar2Set = new Set(array2.map(e => e._id))
+        return array1.filter(element => !ar2Set.has(element._id))
     }
 
     static importDirectory(path) {
