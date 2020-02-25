@@ -38,7 +38,6 @@ export default class SearchResults extends PureComponent {
                                     <TreeNode
                                         key={result.guid}
                                         node={result}
-                                        collapsed={result.type === 'folder'}
                                         depth={0}
                                         openItemFunc={this.props.openItemFunc}
                                     />

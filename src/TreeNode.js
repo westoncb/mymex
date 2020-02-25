@@ -9,8 +9,7 @@ export default class TreeNode extends PureComponent {
         super(props);
         this.state = {
             node: props.node,
-            collapsed: props.collapsed,
-            depth: props.depth,
+            collapsed: props.node.type === "folder",
             hasMouse: false
         };
     }
@@ -26,7 +25,7 @@ export default class TreeNode extends PureComponent {
     handleLeafClick = (e) => {
         e.stopPropagation()
 
-        this.props.openItemFunc(this.state.node)
+        this.props.openItemFunc(this.props.node)
     }
 
     isLeaf() {
@@ -62,7 +61,7 @@ export default class TreeNode extends PureComponent {
 
         return (
             
-        <div className="node" style={{marginLeft: this.state.depth*2 + "rem"}}>
+        <div className="node" style={{marginLeft: this.props.depth*2 + "rem"}}>
                 {this.isLeaf() && 
                     <div className="leaf-label" onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseExit} onClick={this.handleLeafClick}>
                         <div className="leaf-thumbnail"></div>
@@ -109,7 +108,7 @@ export default class TreeNode extends PureComponent {
                                     key={child.guid}
                                     node={child}
                                     collapsed={child.type === 'folder'}
-                                    depth={this.state.depth + 1}
+                                    depth={this.props.depth + 1}
                                     openItemFunc={this.props.openItemFunc}
                                 />
                             ))}
@@ -121,7 +120,7 @@ export default class TreeNode extends PureComponent {
                                     key={child.guid}
                                     node={child}
                                     collapsed={child.type === 'folder'}
-                                    depth={this.state.depth + 1}
+                                    depth={this.props.depth + 1}
                                     openItemFunc={this.props.openItemFunc}
                                 />
                             ))}
