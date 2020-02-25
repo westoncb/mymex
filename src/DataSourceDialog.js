@@ -38,7 +38,7 @@ class DataSourceDialog extends PureComponent {
         resultPromise.then((result, err) => {
             if (!result.canceled) {
                 const path = result.filePaths[0]
-                DataStore.addDataSource({ name: type, path }, dataSource => {
+                DataStore.addDataSource({ name: type, path, type }, dataSource => {
                     console.log("dataSources", dataSource)
                     this.setState({ dataSources: this.state.dataSources.concat(dataSource) })
                 })

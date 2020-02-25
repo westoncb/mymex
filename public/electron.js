@@ -11,9 +11,9 @@ let mainWindow;
 function createWindow() {
 
     // Setting 'nodeIntegration' true is a temporary solution and could be a security issue
-    mainWindow = new BrowserWindow({ width: 1600, height: 900, webPreferences: { nodeIntegration: true} });
+    mainWindow = new BrowserWindow({ width: 1600, height: 900, webPreferences: { nodeIntegration: true} })
 
-    mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
+    mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`)
     mainWindow.toggleDevTools();
     mainWindow.on('closed', () => mainWindow = null);
 }
