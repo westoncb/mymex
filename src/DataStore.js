@@ -123,6 +123,14 @@ class DataStore {
             func(docs)
         }, error => console.error(error))
     }
+
+    static async getMemNodesMatching(str) {
+        return this.memDB.find({name: new RegExp(str, 'i')}).sort({parent: 1})
+    }
+
+    static async getMem(id) {
+        return this.memDB.findOne({ _id: id})
+    }
 }
 
 export default DataStore

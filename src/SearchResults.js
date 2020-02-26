@@ -5,23 +5,14 @@ import Util from './Util'
 
 export default class SearchResults extends PureComponent {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
-            results: props.results,
             visible: props.visible
-        };
+        }
     }
 
     render() {
-        this.props.results.forEach(result => {
-            result.children.sort((a, b) => {
-                const x = Util.isLeaf(a) ? 1 : 0
-                const y = Util.isLeaf(b) ? 1 : 0
-
-                return x - y
-            })
-        })
 
         return (
             <div>
@@ -29,18 +20,35 @@ export default class SearchResults extends PureComponent {
                     <div className="results-panel-parent">
                         <div className="results-panel">
 
-                            {this.props.results.map((result, i) => (
-                                <div key={result.id} className="result-section">
+                            {this.props.sections.map(section => (
+                                <div key={section.id + "_section" + "_" + section.name} className="result-section">
                                     <div className="result-path">
-                                        {result.path}
+                                        {section.title}
                                     </div>
 
-                                    <TreeNode
-                                        key={result.guid}
-                                        node={result}
-                                        depth={0}
-                                        openItemFunc={this.props.openItemFunc}
-                                    />
+                                    <div className="folder-children">
+                                        {section.folders.map(child => (
+                                            <TreeNode
+                                                key={child._id}
+                                                node={child}
+                                                collapsed={!child.isLeaf}
+                                                depth={this.props.depth + 1}
+                                                openItemFunc={this.props.openItemFunc}
+                                            />
+                                        ))}
+                                    </div>
+
+                                    <div className="leaf-children">
+                                        {section.mems.map(child => (
+                                            <TreeNode
+                                                key={child._id}
+                                                node={child}
+                                                collapsed={!child.isLeaf}
+                                                depth={this.props.depth + 1}
+                                                openItemFunc={this.props.openItemFunc}
+                                            />
+                                        ))}
+                                    </div>
                                 </div>
                             ))}
                         </div>

@@ -16,7 +16,7 @@ export default class OpenTray extends PureComponent {
             <div className="main-col">
                 {
                     this.props.openItems.map(item => (
-                        <div className="item" onClick={this.handleItemClick}>
+                        <div className="item" key={item._id} onClick={this.handleItemClick}>
                             <div className="item-thumbnail"></div>
                             <div className='item-name'>{item.name}</div>
                         </div>

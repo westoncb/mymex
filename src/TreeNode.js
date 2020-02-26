@@ -2,16 +2,14 @@ import React, { PureComponent } from "react";
 import './TreeNode.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
-import Util from "./Util";
 
 export default class TreeNode extends PureComponent {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
-            node: props.node,
-            collapsed: props.node.type === "folder",
+            collapsed: !props.node.isLeaf,
             hasMouse: false
-        };
+        }
     }
 
     handleFolderClick = (e) => {
@@ -29,7 +27,7 @@ export default class TreeNode extends PureComponent {
     }
 
     isLeaf() {
-        return Util.isLeaf(this.props.node)
+        return this.props.node.isLeaf
     }
 
     mouseEnter = (e) => {
@@ -52,7 +50,7 @@ export default class TreeNode extends PureComponent {
         const leafChildren = [];
 
         (this.props.node.children || []).forEach(child => {
-            if (Util.isLeaf(child)) {
+            if (child.isLeaf) {
                 leafChildren.push(child)
             } else {
                 folderChildren.push(child)
@@ -91,39 +89,11 @@ export default class TreeNode extends PureComponent {
                     </div>
                 }
 
-                {!this.isLeaf() && this.props.node.guid &&
+                {!this.isLeaf() &&
                     <div className="node-label" onClick={this.handleFolderClick}>
                         <div className="left-section">
                             {nodeIcon}
                             <div className='node-text'>{this.props.node.name}</div>
-                        </div>
-                    </div>
-                }
-
-                {!this.state.collapsed &&
-                    <div>
-                        <div className="folder-children">
-                            {folderChildren.map(child => (
-                                <TreeNode
-                                    key={child.guid}
-                                    node={child}
-                                    collapsed={child.type === 'folder'}
-                                    depth={this.props.depth + 1}
-                                    openItemFunc={this.props.openItemFunc}
-                                />
-                            ))}
-                        </div>
-
-                        <div className="leaf-children">
-                            {leafChildren.map(child => (
-                                <TreeNode
-                                    key={child.guid}
-                                    node={child}
-                                    collapsed={child.type === 'folder'}
-                                    depth={this.props.depth + 1}
-                                    openItemFunc={this.props.openItemFunc}
-                                />
-                            ))}
                         </div>
                     </div>
                 }
