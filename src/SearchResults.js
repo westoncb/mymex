@@ -28,10 +28,10 @@ export default class SearchResults extends PureComponent {
                                     </div>
 
                                     <div className="folder-children">
-                                        {section.folders.map(child => (
+                                        {section.folders.map(folder => (
                                             <FolderNode
-                                                key={child._id}
-                                                node={child}
+                                                key={folder._id}
+                                                node={folder}
                                                 folderToggleFunc={this.props.folderToggleFunc}
                                             />
                                         ))}
