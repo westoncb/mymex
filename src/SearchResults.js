@@ -15,8 +15,6 @@ export default class SearchResults extends PureComponent {
     render() {
         const sections = Object.keys(this.props.sections).map(key => this.props.sections[key])
 
-        console.log("sections: ", sections)
-
         return (
             <div>
                 {(this.props.visible) &&

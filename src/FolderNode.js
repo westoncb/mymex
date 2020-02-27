@@ -18,8 +18,6 @@ class FolderNode extends PureComponent {
             nodeIcon = <FontAwesomeIcon icon={faMinus} />
         }
 
-        console.log("COLLAPSED", this.props.node.collapsed)
-
         return (
             <div className="folder-node no-select" onClick={this.handleClick} style={{ marginLeft: this.props.node.depth * 2 + "rem" }}>
                 <div className="left-section">
