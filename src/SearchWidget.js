@@ -61,9 +61,9 @@ export default class SearchWidget extends PureComponent {
             const section = this.getSection(mem.parent, sectionTitle, sections)
 
             if (mem.isLeaf)
-               section.mems.push({ depth: 0, ...mem})
+               section.mems.push(mem)
             else
-               section.folders.push({ depth: 0, collapsed: true, parentSection: section, ...mem })
+               section.folders.push(mem)
          } else {
             rootSection.folders.push(mem)
          }
@@ -78,7 +78,6 @@ export default class SearchWidget extends PureComponent {
       const folderIndex = section.folders.indexOf(folderNode)
 
       if (!collapsed) {
-         console.log("folderNode", folderNode)
          DataStore.getMems(folderNode.children).then(children => {
             children.forEach(child => {
                const section = folderNode.parentSection

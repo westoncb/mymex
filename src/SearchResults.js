@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import './SearchResults.css';
-import TreeNode from './TreeNode'
 import FolderNode from './FolderNode'
+import MemNode from './MemNode'
 
 export default class SearchResults extends PureComponent {
     constructor(props) {
@@ -32,19 +32,17 @@ export default class SearchResults extends PureComponent {
                                             <FolderNode
                                                 key={folder._id}
                                                 node={folder}
-                                                folderToggleFunc={this.props.folderToggleFunc}
+                                                depth={1}
                                             />
                                         ))}
                                     </div>
 
                                     <div className="leaf-children">
                                         {section.mems.map(child => (
-                                            <TreeNode
+                                            <MemNode
                                                 key={child._id}
                                                 node={child}
-                                                collapsed={!child.isLeaf}
-                                                depth={this.props.depth + 1}
-                                                openItemFunc={this.props.openItemFunc}
+                                                depth={1}
                                             />
                                         ))}
                                     </div>
