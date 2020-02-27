@@ -72,14 +72,27 @@ export default class SearchWidget extends PureComponent {
       return sections
    }
 
-   toggleFolderState = folderNode => {
+   toggleFolderState = async folderNode => {
+      const collapsed = !folderNode.collapsed
+      const section = folderNode.parentSection
+      const folderIndex = section.folders.indexOf(folderNode)
+
+      if (!collapsed) {
+         console.log("folderNode", folderNode)
+         DataStore.getMems(folderNode.children).then(children => {
+            children.forEach(child => {
+               const section = folderNode.parentSection
+               const array = child.isLeaf ? section.mems : section.folders
+
+               array.splice(folderIndex, 0, {...child, depth: folderNode.depth+1, collapsed: !child.isLeaf})
+            })
+         }, err => console.error(err))
+      }
 
       this.setState((state, props) => {
-         const section = folderNode.parentSection
          const folders = [...section.folders]
-         const folderIndex = folders.indexOf(folderNode)
          
-         folders[folderIndex] = { ...folderNode, collapsed: !folderNode.collapsed}
+         folders[folderIndex] = { ...folderNode, collapsed}
          return { resultSections: { ...state.resultSections, [section.id]: { ...section, folders }} }
       })
    }

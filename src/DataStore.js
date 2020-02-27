@@ -45,6 +45,7 @@ class DataStore {
             case C.DS_TYPE_CHROME:
 
                 memNodes = await this.importChromeBookmarks(dataSource);
+                console.log("memNodes", memNodes)
                 break;
             case C.DS_TYPE_DIRECTORY:
 
@@ -124,12 +125,30 @@ class DataStore {
         }, error => console.error(error))
     }
 
-    static async getMemNodesMatching(str) {
+    static getMemNodesMatching(str) {
         return this.memDB.find({name: new RegExp(str, 'i')}).sort({parent: 1})
     }
 
-    static async getMem(id) {
+    static getMem(id) {
         return this.memDB.findOne({ _id: id})
+    }
+
+    static getMems(idArray) {
+        return this.memDB.find({ _id: { $in: idArray } } )
+    }
+
+    static async getNodeDepth(node) {
+        let parentId = node.parent
+        let parentObj
+        let depth = 0
+
+        while (parentId) {
+            depth++
+            parentObj = await this.getMem(parentId)
+            parentId = parentObj.parent
+        }
+
+        return depth
     }
 }
 
