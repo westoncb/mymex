@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import './SearchResults.css';
 import TreeNode from './TreeNode'
-import Util from './Util'
+import FolderNode from './FolderNode'
 
 export default class SearchResults extends PureComponent {
     constructor(props) {
@@ -13,6 +13,9 @@ export default class SearchResults extends PureComponent {
     }
 
     render() {
+        const sections = Object.keys(this.props.sections).map(key => this.props.sections[key])
+
+        console.log("sections: ", sections)
 
         return (
             <div>
@@ -20,7 +23,7 @@ export default class SearchResults extends PureComponent {
                     <div className="results-panel-parent">
                         <div className="results-panel">
 
-                            {this.props.sections.map(section => (
+                        {sections.map(section => (
                                 <div key={section.id + "_section" + "_" + section.name} className="result-section">
                                     <div className="result-path">
                                         {section.title}
@@ -28,12 +31,10 @@ export default class SearchResults extends PureComponent {
 
                                     <div className="folder-children">
                                         {section.folders.map(child => (
-                                            <TreeNode
+                                            <FolderNode
                                                 key={child._id}
                                                 node={child}
-                                                collapsed={!child.isLeaf}
-                                                depth={this.props.depth + 1}
-                                                openItemFunc={this.props.openItemFunc}
+                                                folderToggleFunc={this.props.folderToggleFunc}
                                             />
                                         ))}
                                     </div>

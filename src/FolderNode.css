@@ -1,0 +1,32 @@
+.folder-node {
+    color: #555;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    background-color: white;
+    margin: 0.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.06);
+    transition: all 0.2s;
+    height: 3rem;
+    cursor: pointer;
+}
+
+.folder-node:hover {
+    background-color: #eeeeff;
+    transition: all 0.2s;
+}
+
+.left-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.5rem;
+    padding-left: 1rem;
+}
+
+.node-text {
+    margin-left: 1rem;
+}

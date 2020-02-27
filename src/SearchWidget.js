@@ -10,7 +10,7 @@ export default class SearchWidget extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            resultSections: [],
+            resultSections: {},
             inputFocused: false,
             isDialogOpen: false
         }
@@ -61,15 +61,27 @@ export default class SearchWidget extends PureComponent {
             const section = this.getSection(mem.parent, sectionTitle, sections)
 
             if (mem.isLeaf)
-               section.mems.push(mem)
+               section.mems.push({ depth: 0, ...mem})
             else
-               section.folders.push({ collapsed: true, ...mem })
+               section.folders.push({ depth: 0, collapsed: true, parentSection: section, ...mem })
          } else {
             rootSection.folders.push(mem)
          }
       }
 
-      return Object.keys(sections).map(key => sections[key])
+      return sections
+   }
+
+   toggleFolderState = folderNode => {
+
+      this.setState((state, props) => {
+         const section = folderNode.parentSection
+         const folders = [...section.folders]
+         const folderIndex = folders.indexOf(folderNode)
+         
+         folders[folderIndex] = { ...folderNode, collapsed: !folderNode.collapsed}
+         return { resultSections: { ...state.resultSections, [section.id]: { ...section, folders }} }
+      })
    }
 
    async getParent(mem, cache) {
@@ -94,7 +106,7 @@ export default class SearchWidget extends PureComponent {
             <div className="search-widget-container" onFocus={this.handleFocus} onBlur={this.handleBlur}>
                 <div className="input-results-group">
                   <input className="search-input" type="text" ref={this.textInput} onChange={this.handleTextChange} />
-                  <SearchResults sections={this.state.resultSections} visible={this.state.inputFocused} openItemFunc={this.props.openItemFunc} />
+                  <SearchResults sections={this.state.resultSections} visible={this.state.inputFocused} folderToggleFunc={this.toggleFolderState} openItemFunc={this.props.openItemFunc} />
                 </div>
 
               <Button style={{flexShrink: 0}} onClick={this.handleOpen}>
