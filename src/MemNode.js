@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import './MemNode.css'
 
-class FolderNode extends PureComponent {
+class MemNode extends PureComponent {
 
     render() {
         return (
@@ -38,4 +38,4 @@ class FolderNode extends PureComponent {
     }
 }
 
-export default FolderNode
+export default MemNode
