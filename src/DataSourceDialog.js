@@ -4,6 +4,7 @@ import { Icon, Button, Dialog, Intent, Classes, Tooltip, AnchorButton, NonIdealS
 import { IconNames } from "@blueprintjs/icons";
 import './DataSourceDialog.css' 
 import C from './constants'
+const path = require('path')
 const electron = window.require('electron').remote
 const dialog = electron.dialog
 
@@ -29,7 +30,7 @@ class DataSourceDialog extends PureComponent {
         let resultPromise
 
         if (type === C.DS_TYPE_CHROME) {
-            const defaultPath = electron.app.getPath('home') + "/Library/Application Support/Google/Chrome/Default"
+            const defaultPath = path.join(electron.app.getPath('home'), "/Library/Application Support/Google/Chrome/Default")
             resultPromise = dialog.showOpenDialog({title: "Select Chrome bookmarks file", defaultPath, properties: ['openFile'] })
         } else if (type === C.DS_TYPE_DIRECTORY) {
             resultPromise = dialog.showOpenDialog({title: "Choose folder", properties: ['openDirectory', 'showHiddenFiles', 'createDirectory'] })
