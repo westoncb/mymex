@@ -3,12 +3,22 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
-const url = require('url');
 const isDev = require('electron-is-dev');
 
 let mainWindow;
 
+const protocol = electron.protocol
+
+protocol.registerSchemesAsPrivileged([{scheme: "thumbnail", privileges: { standard: true, bypassCSP: true }}])
+
 function createWindow() {
+
+    protocol.registerFileProtocol('thumbnail', (request, callback) => {
+        const url = request.url.substr(12, request.url.length - 13)
+        callback({ path: app.getPath('userData') + '/thumbnails/' + url })
+    }, (error) => {
+        if (error) console.error('Failed to register protocol')
+    })
 
     // Setting 'nodeIntegration' true is a temporary solution and could be a security issue
     mainWindow = new BrowserWindow({ width: 1600, height: 900, webPreferences: { nodeIntegration: true} })

@@ -1,5 +1,7 @@
 import React, { PureComponent } from "react";
 import './MemNode.css'
+const path = require('path')
+const electron = window.require('electron').remote
 
 class MemNode extends PureComponent {
 
@@ -8,7 +10,7 @@ class MemNode extends PureComponent {
 
             <div className="node">
                 <div className="leaf-label" onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseExit} onClick={this.handleLeafClick}>
-                    <div className="leaf-thumbnail"></div>
+                    <img className="leaf-thumbnail" src={"thumbnail://" + this.props.node._id + ".png"} alt=""/>
                     <div className='leaf-text'>{this.props.node.name}</div>
                     {/* <div className="meta-panel" style={{visibility: this.state.hasMouse ? "visible" : "hidden"}}>
                             <div className="meta-top">

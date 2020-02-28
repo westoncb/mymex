@@ -76,9 +76,9 @@
 }
 
 .leaf-thumbnail {
-    min-width: 12rem;
-    min-height: 8rem;
-    background-color: #666;
+    width: 12rem;
+    height: 8rem;
+    background-color: #ccc;
     margin-bottom: 0.5rem;
     flex-shrink: 0;
 }
