@@ -1,32 +1,3 @@
-.node {
-    color: #555;
-}
-
-.thumbnail {
-    width: 8rem;
-    height: 8rem;
-}
-
-.node-label {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    font-size: 1.2rem;
-    background-color: white;
-    margin: 0.5rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.06);
-    transition: all 0.2s;
-    height: 3rem;
-    cursor: pointer;
-}
-
-.node-label:hover {
-    background-color: #eeeeff;
-    transition: all 0.2s;
-}
-
 .left-section {
     display: flex;
     flex-direction: row;
@@ -51,10 +22,10 @@
     justify-content: flex-start;
     align-items: center;
     padding: 0.5rem;
-    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.16);
     transition: all 0.2s;
-    height: 16rem;
-    width: 16rem;
+    height: 18rem;
+    width: 18rem;
     margin: 0.5rem;
     /* white-space: nowrap; */
     /* overflow: hidden; */
@@ -76,12 +47,12 @@
 }
 
 .leaf-thumbnail {
-    width: 15rem;
-    height: 11rem;
+    width: 17rem;
+    height: 13rem;
     background-color: #ccc;
     margin-bottom: 0.5rem;
     flex-shrink: 0;
-    border: 1px solid #ddd;
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
 }
 
 .meta-panel {
