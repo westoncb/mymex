@@ -62,6 +62,7 @@ class DataStore {
                 if (job) {
                     await this.takeScreenshot(job)
                     await this.workDB.remove({_id: job._id})
+                    console.log("finished job: ", job.location)
                 }
             } while (job)
 
@@ -75,6 +76,13 @@ class DataStore {
     }
 
     static async takeScreenshot(job) {
+        // Not the best way of doing this, but the idea
+        // is to prevent the download dialog that pops up
+        // with urls pointing to pdfs (and other file types I'm sure)
+        if (job.location.endsWith(".pdf")) {
+            return new Promise((resolve, reject) => resolve())
+        }
+
         if (!this.browserWindow) {
             this.browserWindow = new BrowserWindow({
                 show: false, webPreferences: {
