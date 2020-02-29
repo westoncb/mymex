@@ -3,8 +3,8 @@
 }
 
 .thumbnail {
-    width: 5rem;
-    height: 5rem;
+    width: 8rem;
+    height: 8rem;
 }
 
 .node-label {
@@ -53,8 +53,8 @@
     padding: 0.5rem;
     box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.06);
     transition: all 0.2s;
-    height: 14rem;
-    width: 14rem;
+    height: 16rem;
+    width: 16rem;
     margin: 0.5rem;
     /* white-space: nowrap; */
     /* overflow: hidden; */
@@ -76,8 +76,8 @@
 }
 
 .leaf-thumbnail {
-    width: 12rem;
-    height: 8rem;
+    width: 15rem;
+    height: 11rem;
     background-color: #ccc;
     margin-bottom: 0.5rem;
     flex-shrink: 0;
