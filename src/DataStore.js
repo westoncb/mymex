@@ -59,8 +59,8 @@ class DataStore {
             let job
             do {
                 job = await this.workDB.findOne({})
-                console.log("found a job", job.location)
                 if (job) {
+                    console.log("found a job", job.location)
                     await this.takeScreenshot(job)
                     await this.workDB.remove({_id: job._id})
                     console.log("finished job: ", job.location)
