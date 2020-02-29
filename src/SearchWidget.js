@@ -30,13 +30,17 @@ export default class SearchWidget extends PureComponent {
         // this.setState({ inputFocused: false })
     }
 
+    count = 0
+
     handleTextChange(e) {
         const string =  e.target.value || ""
         this.getResultSections(string).then(sections => {
-           if (string !== "") {
-              this.setState({ resultSections: sections })
-           } else {
-              this.setState({ resultSections: [] })
+           if (sections.id === this.count) {
+              if (string !== "") {
+                 this.setState({ resultSections: sections })
+              } else {
+                 this.setState({ resultSections: [] })
+              }
            }
         })
     }
@@ -49,7 +53,7 @@ export default class SearchWidget extends PureComponent {
    async createResultSections(results) {
       const rootTitle = results.length === 0 ? "no results" : ""
 
-      const sections = {}
+      const sections = {id: ++this.count}
       const rootSection = this.getSection("root", rootTitle, sections)
       const parentCache = {}
 
