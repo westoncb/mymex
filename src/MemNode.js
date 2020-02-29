@@ -1,7 +1,5 @@
 import React, { PureComponent } from "react";
 import './MemNode.css'
-const path = require('path')
-const electron = window.require('electron').remote
 
 class MemNode extends PureComponent {
 

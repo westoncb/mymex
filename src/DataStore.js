@@ -53,8 +53,6 @@ class DataStore {
     }
 
     static async doQueuedWork() {
-        return
-
         if (!this.working) {
             this.working = true
 
@@ -62,7 +60,6 @@ class DataStore {
             do {
                 job = await this.workDB.findOne({})
                 if (job) {
-                    console.log("about to screenshot: ", job)
                     await this.takeScreenshot(job)
                     await this.workDB.remove({_id: job._id})
                 }
@@ -88,7 +85,7 @@ class DataStore {
         this.browserWindow.loadURL(job.location)
 
         return new Promise((resolve, reject) => {
-            this.browserWindow.webContents.on('did-finish-load', async () => {
+            const pageReadyHandler = async () => {
                 const screenshot = await this.browserWindow.webContents.capturePage()
                 const pngScreenshot = screenshot.toPNG()
 
@@ -97,7 +94,8 @@ class DataStore {
                 await fs.writeFileSync(path.join(writePath, job._id + ".png"), pngScreenshot)
 
                 resolve()
-            })
+            }
+            this.browserWindow.webContents.once('did-finish-load', pageReadyHandler)
         })
     }
 
@@ -187,7 +185,10 @@ class DataStore {
     }
 
     static addDataSource(info, func) {
-        this.dataSourceDB.insert({ _id: this.idForPath(info.path), ...info }).then(newDoc => func(newDoc), error => console.error(error))
+        this.dataSourceDB.insert({ _id: this.idForPath(info.path), ...info }).then(newDoc => {
+            func(newDoc)
+            this.refreshDataSource(newDoc)
+        }, error => console.error(error))
     }
 
     static getDataSources(func) {
