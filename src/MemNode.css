@@ -81,6 +81,7 @@
     background-color: #ccc;
     margin-bottom: 0.5rem;
     flex-shrink: 0;
+    border: 1px solid #ddd;
 }
 
 .meta-panel {
