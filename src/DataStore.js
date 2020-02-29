@@ -59,6 +59,7 @@ class DataStore {
             let job
             do {
                 job = await this.workDB.findOne({})
+                console.log("found a job", job.location)
                 if (job) {
                     await this.takeScreenshot(job)
                     await this.workDB.remove({_id: job._id})
@@ -90,10 +91,25 @@ class DataStore {
                 } })
         }
 
-        this.browserWindow.loadURL(job.location)
+        this.browserWindow.webContents.loadURL(job.location)
+        this.browserWindow.webContents.setAudioMuted(true)
 
         return new Promise((resolve, reject) => {
-            const pageReadyHandler = async () => {
+            const errorEvents = ['crashed', 'unresponsive', 'plugin-crashed', 'did-fail-load']
+            const finish = () => {
+                this.browserWindow.webContents.removeAllListeners('did-finish-load')
+                errorEvents.forEach(event => this.browserWindow.webContents.removeAllListeners(event))
+                resolve()
+            }
+
+            // A better solution would be to use a broswer timeout event, 
+            // but I haven't been able to find one
+            const timeoutCode = setTimeout(() => {
+                console.log("screenshot job timed out: ", job.location)
+                finish()
+            }, 20000)
+
+            const finishedLoadingHandler = async () => {
                 const screenshot = await this.browserWindow.webContents.capturePage()
                 const pngScreenshot = screenshot.toPNG()
 
@@ -101,9 +117,15 @@ class DataStore {
                 await fs.promises.mkdir(writePath, { recursive: true }).catch(console.error)
                 await fs.writeFileSync(path.join(writePath, job._id + ".png"), pngScreenshot)
 
-                resolve()
+                clearTimeout(timeoutCode)
+                finish()
             }
-            this.browserWindow.webContents.once('did-finish-load', pageReadyHandler)
+
+            this.browserWindow.webContents.once('did-finish-load', finishedLoadingHandler)
+            errorEvents.forEach(event => this.browserWindow.webContents.once(event, () => {
+                clearTimeout(timeoutCode)
+                finish()
+            }))
         })
     }
 
