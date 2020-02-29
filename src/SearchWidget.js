@@ -72,30 +72,6 @@ export default class SearchWidget extends PureComponent {
       return sections
    }
 
-   toggleFolderState = async folderNode => {
-      const collapsed = !folderNode.collapsed
-      const section = folderNode.parentSection
-      const folderIndex = section.folders.indexOf(folderNode)
-
-      if (!collapsed) {
-         DataStore.getMems(folderNode.children).then(children => {
-            children.forEach(child => {
-               const section = folderNode.parentSection
-               const array = child.isLeaf ? section.mems : section.folders
-
-               array.splice(folderIndex, 0, {...child, depth: folderNode.depth+1, collapsed: !child.isLeaf})
-            })
-         }, err => console.error(err))
-      }
-
-      this.setState((state, props) => {
-         const folders = [...section.folders]
-         
-         folders[folderIndex] = { ...folderNode, collapsed}
-         return { resultSections: { ...state.resultSections, [section.id]: { ...section, folders }} }
-      })
-   }
-
    async getParent(mem, cache) {
       const parent = cache[mem._id] || await DataStore.getMem(mem.parent)
       cache[mem._id] = parent
@@ -118,7 +94,7 @@ export default class SearchWidget extends PureComponent {
             <div className="search-widget-container" onFocus={this.handleFocus} onBlur={this.handleBlur}>
                 <div className="input-results-group">
                   <input className="search-input" type="text" ref={this.textInput} onChange={this.handleTextChange} />
-                  <SearchResults sections={this.state.resultSections} visible={this.state.inputFocused} folderToggleFunc={this.toggleFolderState} openItemFunc={this.props.openItemFunc} />
+                  <SearchResults sections={this.state.resultSections} visible={this.state.inputFocused} openItemFunc={this.props.openItemFunc} />
                 </div>
 
               <Button style={{flexShrink: 0}} onClick={this.handleOpen}>
