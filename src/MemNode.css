@@ -15,6 +15,11 @@
     margin-left: 1rem;
 }
 
+.node {
+    flex-grow: 1;
+    position: relative;
+}
+
 .leaf-label {
     position: relative;
     display: flex;
@@ -25,7 +30,7 @@
     box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.16);
     transition: all 0.2s;
     height: 18rem;
-    width: 18rem;
+    min-width: 18rem;
     margin: 0.5rem;
     /* white-space: nowrap; */
     /* overflow: hidden; */
@@ -43,12 +48,12 @@
     color: #666;
     flex-shrink: 1;
     flex-grow: 0;
+    max-width: 17rem;
     overflow: hidden;
 }
 
 .leaf-thumbnail {
-    width: 17rem;
-    height: 13rem;
+    max-height: 13rem;
     background-color: #ccc;
     margin-bottom: 0.5rem;
     flex-shrink: 0;
