@@ -12,6 +12,7 @@
     "electron-is-dev": "^1.1.0",
     "md5": "^2.2.1",
     "nedb-promises": "^4.0.1",
+    "pdfjs-dist": "^2.2.228",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "0.9.x"
