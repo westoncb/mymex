@@ -1,5 +1,4 @@
 import React, { PureComponent } from "react";
-import SearchResults from './SearchResults.js';
 import DataSourceDialog from './DataSourceDialog';
 import DataStore from './DataStore';
 import './SearchWidget.css'
@@ -10,7 +9,6 @@ export default class SearchWidget extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            resultSections: {},
             inputFocused: false,
             isDialogOpen: false
         }
@@ -30,64 +28,9 @@ export default class SearchWidget extends PureComponent {
         // this.setState({ inputFocused: false })
     }
 
-    count = 0
-
-    handleTextChange(e) {
-        const string =  e.target.value || ""
-        this.getResultSections(string).then(sections => {
-           if (sections.id === this.count) {
-              if (string !== "") {
-                 this.setState({ resultSections: sections })
-              } else {
-                 this.setState({ resultSections: [] })
-              }
-           }
-        })
-    }
-
-    async getResultSections(string) {
-        const results = await DataStore.getMemNodesMatching(string)
-        return this.createResultSections(results)
-    }
-
-   async createResultSections(results) {
-      const rootTitle = results.length === 0 ? "no results" : ""
-
-      const sections = {id: ++this.count}
-      const rootSection = this.getSection("root", rootTitle, sections)
-      const parentCache = {}
-
-      for (const mem of results) {
-
-         if (mem.parent) {
-            const parent = await this.getParent(mem, parentCache)
-            const sectionTitle = (parent.path || parent.name)
-            const section = this.getSection(mem.parent, sectionTitle, sections)
-
-            if (mem.isLeaf)
-               section.mems.push(mem)
-            else
-               section.folders.push(mem)
-         } else {
-            rootSection.folders.push(mem)
-         }
-      }
-
-      return sections
-   }
-
-   async getParent(mem, cache) {
-      const parent = cache[mem._id] || await DataStore.getMem(mem.parent)
-      cache[mem._id] = parent
-
-      return parent
-   }
-
-   getSection(id, title, sections) {
-      const section = sections[id] || { id, title, mems: [], folders: []}
-      sections[id] = section
-
-      return section
+   handleTextChange(e) {
+      const string =  e.target.value || ""
+      this.props.updateSearchString(string)
    }
 
    handleOpen = () => this.setState({ isDialogOpen: true })
@@ -98,7 +41,6 @@ export default class SearchWidget extends PureComponent {
             <div className="search-widget-container" onFocus={this.handleFocus} onBlur={this.handleBlur}>
                 <div className="input-results-group">
                   <input className="search-input" type="text" ref={this.textInput} onChange={this.handleTextChange} />
-                  <SearchResults sections={this.state.resultSections} visible={this.state.inputFocused} openItemFunc={this.props.openItemFunc} />
                 </div>
 
               <Button style={{flexShrink: 0}} onClick={this.handleOpen}>

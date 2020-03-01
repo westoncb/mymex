@@ -53,6 +53,7 @@ class FolderNode extends PureComponent {
                             key={folder._id}
                             depth={this.props.depth + 1}
                             node={folder}
+                            openItemFunc={this.props.openItemFunc}
                         />
                     ))}
                 </div>
@@ -63,6 +64,7 @@ class FolderNode extends PureComponent {
                             key={folder._id}
                             depth={this.props.depth + 1}
                             node={folder}
+                            openItemFunc={this.props.openItemFunc}
                         />
                     ))}
                 </div>

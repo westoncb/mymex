@@ -1,0 +1,7 @@
+.content-viewer {
+    position: relative;
+    flex-grow: 1;
+    align-self: stretch;
+    border: 0;
+    bottom: 0;
+}

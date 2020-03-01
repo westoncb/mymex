@@ -1,8 +1,4 @@
 .results-panel {
-    position: relative;
-    top: 10px;
-    left: 0px;
-    box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.1);
     background-color: white;
 }
 

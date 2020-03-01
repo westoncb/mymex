@@ -33,6 +33,7 @@ export default class SearchResults extends PureComponent {
                                                 key={folder._id}
                                                 node={folder}
                                                 depth={1}
+                                                openItemFunc={this.props.openItemFunc}
                                             />
                                         ))}
                                     </div>
@@ -43,6 +44,7 @@ export default class SearchResults extends PureComponent {
                                                 key={child._id}
                                                 node={child}
                                                 depth={1}
+                                                openItemFunc={this.props.openItemFunc}
                                             />
                                         ))}
                                     </div>

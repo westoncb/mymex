@@ -1,7 +1,6 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-
 const path = require('path');
 const isDev = require('electron-is-dev');
 
@@ -9,13 +8,13 @@ let mainWindow;
 
 const protocol = electron.protocol
 
-protocol.registerSchemesAsPrivileged([{scheme: "thumbnail", privileges: { standard: true, bypassCSP: true }}])
+protocol.registerSchemesAsPrivileged([{scheme: "memexdata", privileges: { standard: true, bypassCSP: true, plugins: true}}])
 
 function createWindow() {
 
-    protocol.registerFileProtocol('thumbnail', (request, callback) => {
-        const url = request.url.substr(12, request.url.length - 13)
-        callback({ path: app.getPath('userData') + '/thumbnails/' + url })
+    protocol.registerFileProtocol('memexdata', (request, callback) => {
+        const url = request.url.substr(12)
+        callback({ path: path.join(app.getPath('userData'), url) })
     }, (error) => {
         if (error) console.error('Failed to register protocol')
     })

@@ -13,6 +13,7 @@ class DataStore {
     static dataSourceDB
     static workDB
     static working = false
+    static activeJob = null
     static browserWindow
 
     static init() {
@@ -56,16 +57,17 @@ class DataStore {
         if (!this.working) {
             this.working = true
 
-            let job
             do {
-                job = await this.workDB.findOne({})
-                if (job) {
-                    console.log("found a job", job.location)
-                    await this.takeScreenshot(job)
-                    await this.workDB.remove({_id: job._id})
-                    console.log("finished job: ", job.location)
+                this.activeJob = await this.workDB.findOne({})
+                this.jobCount = await this.workDB.count({})
+
+                if (this.activeJob) {
+                    console.log("found a job", this.activeJob.location)
+                    await this.takeScreenshot(this.activeJob)
+                    await this.workDB.remove({_id: this.activeJob._id})
+                    console.log("finished job: ", this.activeJob.location)
                 }
-            } while (job)
+            } while (this.activeJob)
 
             this.working = false
             
@@ -110,13 +112,19 @@ class DataStore {
             }, 20000)
 
             const finishedLoadingHandler = async () => {
-                const screenshot = await this.browserWindow.webContents.capturePage()
-                const pngScreenshot = screenshot.toPNG()
+                // const screenshot = await this.browserWindow.webContents.capturePage()
+                // const pngScreenshot = screenshot.toPNG()
+                // const thumbPath = path.join(app.getPath("userData"), "/thumbnails")
+                // await fs.promises.mkdir(thumbPath, { recursive: true }).catch(console.error)
+                // await fs.writeFileSync(path.join(thumbPath, job._id + ".png"), pngScreenshot)
 
-                const writePath = path.join(app.getPath("userData"), "/thumbnails")
-                await fs.promises.mkdir(writePath, { recursive: true }).catch(console.error)
-                await fs.writeFileSync(path.join(writePath, job._id + ".png"), pngScreenshot)
-
+                const pdfPath = path.join(app.getPath("userData"), "/local-mems")
+                await fs.promises.mkdir(pdfPath, { recursive: true }).catch(console.error)
+                this.browserWindow.webContents.printToPDF({}).then(pdfData => {
+                    fs.writeFile(path.join(pdfPath, job._id + ".pdf"), pdfData, (error) => {
+                        if (error) console.error(error)
+                    })
+                })
                 clearTimeout(timeoutCode)
                 finish()
             }
