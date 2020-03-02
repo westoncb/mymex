@@ -104,7 +104,7 @@ class App extends Component {
             </div>
 
             {this.state.activeItem &&
-              <ContentViewer contentId={this.state.activeItem._id} contentType={this.state.activeItem.type} contentName={this.state.activeItem.name} />
+              <ContentViewer content={this.state.activeItem} />
             }
 
             {!this.state.activeItem &&

@@ -3,9 +3,9 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    min-width: 15rem;
+    min-width: 17rem;
     border-right: 2px solid #ccc;
-    background-color: #cecece;
+    background-color: #ededed;
     flex-grow: 0;
     padding-top: 2rem;
     overflow-y: scroll;
