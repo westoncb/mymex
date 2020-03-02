@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import './ContentViewer.css'
+import AnnotationsPanel from './AnnotationsPanel'
 import { Icon, Button, Tooltip, Position, NonIdealState } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 const path = require('path')
@@ -8,10 +9,16 @@ const fs = electron.require('fs')
 
 class ContentViewer extends PureComponent {
 
-    state = {viewingLocal: true}
+    state = {viewingLocal: true, showAnnotations: false}
 
     handleGoBack = () => {
         this.props.goBackFunc()
+    }
+
+    handleToggleAnnotations = () => {
+        this.setState((state, props) => {
+            return {showAnnotations: !state.showAnnotations}
+        })
     }
 
     handleSwitchVersion = () => {
@@ -39,7 +46,7 @@ class ContentViewer extends PureComponent {
                         </Tooltip>
                         <div style={{width: "5rem"}}></div> 
                         <Tooltip content="Show notes" position={Position.BOTTOM}>
-                            <Button className="toolbar-button" style={{ marginRight: "1rem"}}><Icon icon={IconNames.ANNOTATION} iconSize={42} /></Button>
+                            <Button onClick={this.handleToggleAnnotations} className="toolbar-button" style={{ marginRight: "1rem"}}><Icon icon={IconNames.ANNOTATION} iconSize={42} /></Button>
                         </Tooltip>
                         <Tooltip content={switchButtonMessage} position={Position.BOTTOM}>
                             <Button onClick={this.handleSwitchVersion} className="toolbar-button"><Icon icon={IconNames.EXCHANGE} iconSize={42} /></Button>
@@ -70,6 +77,10 @@ class ContentViewer extends PureComponent {
                         description="You might try using the button above to download a fresh copy!"
                         action={undefined}
                     />
+                }
+
+                {this.state.showAnnotations && 
+                    <AnnotationsPanel/>
                 }
 
             </div>

@@ -1,0 +1,14 @@
+.annotations-panel {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    background-color: #192732fa;
+    padding: 1rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 10rem;
+    z-index: 10;
+    box-shadow: 0 4px 10px 4px rgba(0, 0, 0, 0.25);
+}
