@@ -91,6 +91,10 @@ class App extends Component {
     })
   }
 
+  clearActiveItem = () => {
+    this.setState({activeItem: null})
+  }
+
   render() {
 
     return (
@@ -104,7 +108,7 @@ class App extends Component {
             </div>
 
             {this.state.activeItem &&
-              <ContentViewer content={this.state.activeItem} />
+              <ContentViewer content={this.state.activeItem} goBackFunc={this.clearActiveItem} />
             }
 
             {!this.state.activeItem &&
