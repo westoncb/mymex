@@ -49,7 +49,7 @@ class ContentViewer extends PureComponent {
                     </div>
                     <div style={{display: "flex", alignItems: "flex-end"}}>
                         <div className="local-status-message">
-                            Viewing {this.state.viewingLocal ? " local " : " live "}: {this.props.content.name}
+                            <b>Viewing {this.state.viewingLocal ? " local " : " live "}</b>: {this.props.content.name}
                         </div>
                         <Icon className="version-icon" icon={versionIcon} iconSize={32} />
                     </div>
