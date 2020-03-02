@@ -96,7 +96,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="app-top">
-          {/* <OpenTray openItems={this.state.tabs} /> */}
+          <OpenTray openItems={this.state.tabs} />
 
           <div className="right-column">
             <div className="App-header">
@@ -104,7 +104,7 @@ class App extends Component {
             </div>
 
             {this.state.activeItem &&
-              <ContentViewer contentLocation={this.state.activeItem._id} contentType={this.state.activeItem.type} />
+              <ContentViewer contentId={this.state.activeItem._id} contentType={this.state.activeItem.type} contentName={this.state.activeItem.name} />
             }
 
             {!this.state.activeItem &&
@@ -118,7 +118,7 @@ class App extends Component {
             <div className="prog-container">
               <ProgressBar value={null} />
             </div>
-          <div className="download-location-text">Downloading local copies: {this.state.activeJob.location}</div>
+          <div className="download-location-text">Downloading local copy: {this.state.activeJob.location}</div>
           </div>
         }
       </div>

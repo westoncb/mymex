@@ -12,7 +12,6 @@
     "electron-is-dev": "^1.1.0",
     "md5": "^2.2.1",
     "nedb-promises": "^4.0.1",
-    "pdfjs-dist": "^2.2.228",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "0.9.x"
@@ -20,7 +19,7 @@
   "devDependencies": {
     "concurrently": "^5.1.0",
     "cross-env": "^7.0.0",
-    "electron": "^8.0.1",
+    "electron": "electron@9.0.0-beta.3",
     "electron-builder": "^22.3.2",
     "wait-on": "^4.0.0"
   },

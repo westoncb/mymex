@@ -1,7 +1,43 @@
 .content-viewer {
+    display: flex;
+    position: relative;
+    flex-grow: 1;
+    align-self: stretch;
+    bottom: 0;
+}
+
+.content-iframe {
     position: relative;
     flex-grow: 1;
     align-self: stretch;
     border: 0;
     bottom: 0;
+}
+
+.content-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    position: absolute;
+    background-color: #333a48;
+    box-shadow: 0 4px 10px 4px rgba(0, 0, 0, 0.25);
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.local-status-message {
+    background-color: #f5f8fa;
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+.toolbar-button {
+    
 }

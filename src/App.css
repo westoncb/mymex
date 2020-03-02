@@ -1,5 +1,5 @@
 @import "~normalize.css";
-@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/core/lib/css/blueprint-hi-contrast.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 
 #root {
@@ -62,7 +62,7 @@
 }
 
 .App-header {
-  background-color: #30404d;
+  background-color: #59656f;
   height: 150px;
   color: white;
 }
