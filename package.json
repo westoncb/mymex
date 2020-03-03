@@ -9,13 +9,18 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@fortawesome/react-fontawesome": "^0.1.8",
+    "cryptiles": "^4.1.2",
     "electron-is-dev": "^1.1.0",
+    "eslint": "^4.18.2",
+    "hoek": "^4.2.1",
     "js-yaml": "^3.13.1",
     "md5": "^2.2.1",
     "nedb-promises": "^4.0.1",
+    "open": "^6.0.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
-    "react-scripts": "0.9.x"
+    "react-scripts": "0.9.x",
+    "webpack-dev-server": "^3.1.11"
   },
   "devDependencies": {
     "concurrently": "^5.1.0",
