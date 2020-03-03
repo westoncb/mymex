@@ -11,7 +11,7 @@ Another goal of Mymex is to "unify" online / offline information resources. It d
 
 This is my first solo React project: part of why I'm building it is to learn React more deeply.
 
-[0] The name is still under construction (hence the repo being named "Memex" and not "Mymex"). The reference in the name is to the "proto-hypertext system" <a href="https://en.wikipedia.org/wiki/Memex">Memex</a>
+[0] The name is still under construction. The reference in the name is to the "proto-hypertext system" <a href="https://en.wikipedia.org/wiki/Memex">Memex</a>
 
 ## Tech
 
