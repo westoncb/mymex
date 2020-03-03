@@ -1,6 +1,6 @@
 # Mymex
 
-Mymex[0] is an application used for quick retreival of information from a variety of data sources. One of its main goals is to make pieces of information located on the web easier and more reliable to return to. It does this by: 
+Mymex[0] is an application designed for quick retreival of information from a variety of (web/local) data sources. One of its main goals is to make pieces of information located on the web easier and more reliable to return to. It does this by: 
 
 - automatically storing local renderings of web resources
 - allowing tags and notes to be attached to web resources
@@ -11,11 +11,11 @@ Another goal of Mymex is to "unify" online / offline information resources. It d
 
 This is my first solo React project: part of why I'm building it is to learn React more deeply.
 
-[0] The name is still under construction (hence the repo being named "Memex" and not "Mymex"). The reference in the name is to the "proto-hypertext system" <a href="https://en.wikipedia.org/wiki/Memex">Memex</a>
+[0] The name is still under construction. The reference in the name is to the "proto-hypertext system" <a href="https://en.wikipedia.org/wiki/Memex">Memex</a>
 
 ## Tech
 
-Mymax is being written using React, Electron, webpack, BlueprintJS, and NeDB.
+Mymex is being written using JS, React, Electron, webpack, BlueprintJS, and NeDB.
 
 ## To run
 
