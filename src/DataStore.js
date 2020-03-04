@@ -251,6 +251,22 @@ class DataStore {
         return this.memDB.find({ _id: { $in: idArray } } )
     }
 
+    static setMemNotes(id, notes) {
+        this.memDB.update({_id: id}, { $set: { notes }})
+    }
+
+    static setMemTags(id, tags) {
+        this.memDB.update({ _id: id }, { $set: { tags } })
+    }
+
+    static getMemNotes(id) {
+        return this.memDB.find({_id: id})
+    }
+
+    static getMemTags(id) {
+
+    }
+
     static async getNodeDepth(node) {
         let parentId = node.parent
         let parentObj

@@ -15,7 +15,7 @@ class ContentViewer extends PureComponent {
         this.props.goBackFunc()
     }
 
-    handleToggleAnnotations = () => {
+    handleToggleAnnotations = async () => {
         this.setState((state, props) => {
             return {showAnnotations: !state.showAnnotations}
         })
@@ -42,20 +42,20 @@ class ContentViewer extends PureComponent {
                 <div className="content-toolbar bp3-light">
                     <div style={{display: "flex"}}>
                         <Tooltip content="Go back to search results" position={Position.BOTTOM}>
-                            <Button onClick={this.handleGoBack} className="toolbar-button"><Icon icon={IconNames.ARROW_LEFT} iconSize={42} /></Button>
+                            <Button onClick={this.handleGoBack} className="toolbar-button"><Icon icon={IconNames.ARROW_LEFT} iconSize={36} /></Button>
                         </Tooltip>
                         <div style={{width: "5rem"}}></div> 
                         <Tooltip content="Show notes" position={Position.BOTTOM}>
-                            <Button onClick={this.handleToggleAnnotations} className="toolbar-button" style={{ marginRight: "1rem"}}><Icon icon={IconNames.ANNOTATION} iconSize={42} /></Button>
+                            <Button onClick={this.handleToggleAnnotations} className="toolbar-button" style={{ marginRight: "1rem"}}><Icon icon={IconNames.ANNOTATION} iconSize={36} /></Button>
                         </Tooltip>
                         <Tooltip content={switchButtonMessage} position={Position.BOTTOM}>
-                            <Button onClick={this.handleSwitchVersion} className="toolbar-button"><Icon icon={IconNames.EXCHANGE} iconSize={42} /></Button>
+                            <Button onClick={this.handleSwitchVersion} className="toolbar-button"><Icon icon={IconNames.EXCHANGE} iconSize={36} /></Button>
                         </Tooltip>
                         <Tooltip content="Download fresh version" position={Position.BOTTOM}>
-                            <Button className="toolbar-button"><Icon icon={IconNames.DOWNLOAD} iconSize={42} /></Button>
+                            <Button className="toolbar-button"><Icon icon={IconNames.DOWNLOAD} iconSize={36} /></Button>
                         </Tooltip>
                         <Tooltip content="View version history" position={Position.BOTTOM}>
-                            <Button className="toolbar-button"><Icon icon={IconNames.HISTORY} iconSize={42} /></Button>
+                            <Button className="toolbar-button"><Icon icon={IconNames.HISTORY} iconSize={36} /></Button>
                         </Tooltip>
                     </div>
                     <div style={{display: "flex", alignItems: "flex-end"}}>
@@ -80,7 +80,7 @@ class ContentViewer extends PureComponent {
                 }
 
                 {this.state.showAnnotations && 
-                    <AnnotationsPanel/>
+                    <AnnotationsPanel mem={this.props.content}/>
                 }
 
             </div>
