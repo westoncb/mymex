@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import DataStore from "./DataStore"
-import { Icon, Button, Dialog, Intent, Classes, Tooltip, AnchorButton, NonIdealState, Divider, ControlGroup, RadioGroup, Radio } from "@blueprintjs/core";
+import { Icon, Button, Dialog, Classes, AnchorButton, NonIdealState, Divider, ControlGroup, RadioGroup, Radio } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import './DataSourceDialog.css' 
 import C from './constants'
