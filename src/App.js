@@ -9,7 +9,7 @@ import { ProgressBar } from "@blueprintjs/core";
 
 class App extends Component {
 
-  state = { tabs: [], activeItem: null, resultSections: {}, activeJob: null}
+  state = { tabs: [], activeItem: null, resultSections: {}, activeJob: null }
   searchPromiseCount = 0
 
   constructor(props) {
@@ -100,7 +100,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="app-top">
-          <OpenTray openItems={this.state.tabs} />
+          {/* <OpenTray openItems={this.state.tabs} /> */}
 
           <div className="right-column">
             <div className="App-header">
