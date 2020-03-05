@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import './AnnotationsPanel.css'
 import { TagInput, EditableText} from "@blueprintjs/core"
 import { IconNames } from "@blueprintjs/icons";
-import DataStore from './DataStore'
+import DataStore from '../DataStore'
 
 export default function AnnotationsPanel(props) {
     const [tags, setTags] = useState([])

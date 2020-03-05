@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import DataSourceDialog from './DataSourceDialog';
-import DataStore from './DataStore';
+import DataStore from '../DataStore';
 import './SearchWidget.css'
 import { Icon, Button } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";

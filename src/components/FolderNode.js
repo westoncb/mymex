@@ -1,8 +1,8 @@
 import React, { PureComponent } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import './FolderNode.css'
-import DataStore from './DataStore'
+import { Icon } from "@blueprintjs/core";
+import { IconNames } from "@blueprintjs/icons";
+import DataStore from '../DataStore'
 import MemNode from './MemNode'
 
 class FolderNode extends PureComponent {
@@ -33,9 +33,9 @@ class FolderNode extends PureComponent {
     render() {
         let nodeIcon
         if (this.state.collapsed) {
-            nodeIcon = <FontAwesomeIcon icon={faPlus} />
+            nodeIcon = <Icon icon={IconNames.PLUS} />
         } else {
-            nodeIcon = <FontAwesomeIcon icon={faMinus} />
+            nodeIcon = <Icon icon={IconNames.MINUS} />
         }
 
         return (

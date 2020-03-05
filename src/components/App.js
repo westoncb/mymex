@@ -4,7 +4,7 @@ import SearchWidget from './SearchWidget'
 import SearchResults from './SearchResults'
 import ContentViewer from './ContentViewer'
 import OpenTray from './OpenTray'
-import DataStore from './DataStore'
+import DataStore from '../DataStore'
 import { ProgressBar } from "@blueprintjs/core";
 
 class App extends Component {
