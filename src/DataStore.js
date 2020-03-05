@@ -4,7 +4,6 @@ import C from './constants'
 const md5 = require('md5')
 const electron = window.require('electron').remote
 const fs = electron.require('fs')
-import Util from './Util'
 const BrowserWindow = electron.BrowserWindow
 const app = electron.app
 
@@ -15,6 +14,7 @@ class DataStore {
     static working = false
     static activeJob = null
     static browserWindow
+    static jobChangeHandlers = []
 
     static init() {
         
@@ -47,6 +47,10 @@ class DataStore {
         }
     }
 
+    static subscribeToJobChanges(handler) {
+        this.jobChangeHandlers.push(handler)
+    }
+
     static queueScreenshotJobs(nodes) {
         const jobs = nodes.map(node => ({_id: node._id, location: node.location}))
 
@@ -63,6 +67,9 @@ class DataStore {
 
                 if (this.activeJob) {
                     console.log("found a job", this.activeJob.location)
+
+                    this.jobChangeHandlers.forEach(handler => handler(this.activeJob))
+
                     await this.takeScreenshot(this.activeJob)
                     await this.workDB.remove({_id: this.activeJob._id})
                     console.log("finished job: ", this.activeJob.location)

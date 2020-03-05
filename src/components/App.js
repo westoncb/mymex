@@ -20,12 +20,7 @@ export default function App(props) {
   if (!initialized) {
     initialized = true
     DataStore.init()
-
-    setInterval(() => {
-      if (activeJob !== DataStore.activeJob) {
-        setActiveJob(DataStore.activeJob)
-      }
-    }, 1500)
+    DataStore.subscribeToJobChanges((job) => setActiveJob(job))
   }
 
   const clearActiveItem = () => {
