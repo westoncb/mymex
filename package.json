@@ -1,7 +1,7 @@
 {
-  "name": "memex2",
+  "name": "mymex",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "main": "public/electron.js",
   "dependencies": {
     "@blueprintjs/core": "^3.23.1",
