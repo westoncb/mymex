@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import SearchWidget from './SearchWidget'
 import SearchResults from './SearchResults'
@@ -7,127 +7,119 @@ import OpenTray from './OpenTray'
 import DataStore from '../DataStore'
 import { ProgressBar } from "@blueprintjs/core";
 
-class App extends Component {
+let initialized = false
+let searchPromiseCount = 0
 
-  state = { tabs: [], activeItem: null, resultSections: {}, activeJob: null }
-  searchPromiseCount = 0
+export default function App(props) {
 
-  constructor(props) {
-    super(props)
+  const [tabs, setTabs] = useState([])
+  const [activeItem, setActiveItem] = useState(null)
+  const [resultSections, setResultSections] = useState({})
+  const [activeJob, setActiveJob] = useState(null)
 
+  if (!initialized) {
+    initialized = true
     DataStore.init()
 
     setInterval(() => {
-      this.setState((state, props) => {
-        if (state.activeJob !== DataStore.activeJob) {
-          return {activeJob: DataStore.activeJob}
-        } else {
-          return state
-        }
-      })
+      if (activeJob !== DataStore.activeJob) {
+        setActiveJob(DataStore.activeJob)
+      }
     }, 1500)
   }
 
-  updateSearchString(string) {
+  const clearActiveItem = () => {
+    setActiveItem(null)
+  }
 
-    this.setState({activeItem: null})
+  const updateSearchString = (string) => {
+    clearActiveItem()
 
-    this.createResultSections(string).then(sections => {
-      if (sections.promiseId === this.searchPromiseCount) {
+    createResultSections(string).then(sections => {
+      if (sections.promiseId === searchPromiseCount) {
         if (string !== "") {
-          this.setState({ resultSections: sections })
+          setResultSections(sections)
         } else {
-          this.setState({ resultSections: [] })
+          setResultSections([])
         }
       }
     })
   }
 
-  async createResultSections(string) {
-    const results = await DataStore.getMemNodesMatching(string)
-    const rootTitle = results.length === 0 ? "no results" : ""
-
-    const sections = { promiseId: ++this.searchPromiseCount }
-    const rootSection = this.getSection("root", rootTitle, sections)
-    const parentCache = {}
-
-    for (const mem of results) {
-
-      if (mem.parent) {
-        const parent = await this.getParent(mem, parentCache)
-        const sectionTitle = (parent.path || parent.name)
-        const section = this.getSection(mem.parent, sectionTitle, sections)
-
-        if (mem.isLeaf)
-          section.mems.push(mem)
-        else
-          section.folders.push(mem)
-      } else {
-          rootSection.folders.push(mem)
-      }
-    }
-
-    return sections
+  const openItem = (item, tabOnly) => {
+    setActiveItem( tabOnly ? activeItem : item )
+    setTabs(tabs.concat(item))
   }
 
-  async getParent(mem, cache) {
-    const parent = cache[mem._id] || await DataStore.getMem(mem.parent)
-    cache[mem._id] = parent
+  return (
+    <div className="App">
+      <div className="app-top">
+        {/* <OpenTray openItems={tabs} /> */}
 
-    return parent
-  }
-
-  getSection(id, title, sections) {
-    const section = sections[id] || { id, title, mems: [], folders: [] }
-    sections[id] = section
-
-    return section
-  }
-
-  openItem = (item, tabOnly) => {
-    this.setState((state, props) => {
-      const activeItem = tabOnly ? this.state.activeItem : item
-      return {tabs: state.tabs.concat(item), activeItem}
-    })
-  }
-
-  clearActiveItem = () => {
-    this.setState({activeItem: null})
-  }
-
-  render() {
-
-    return (
-      <div className="App">
-        <div className="app-top">
-          {/* <OpenTray openItems={this.state.tabs} /> */}
-
-          <div className="right-column">
-            <div className="App-header">
-              <SearchWidget openItemFunc={this.openItem} updateSearchString={this.updateSearchString.bind(this)} />
-            </div>
-
-            {this.state.activeItem &&
-              <ContentViewer content={this.state.activeItem} goBackFunc={this.clearActiveItem} />
-            }
-
-            {!this.state.activeItem &&
-              <SearchResults sections={this.state.resultSections} visible={true} openItemFunc={this.openItem} />
-            }
+        <div className="right-column">
+          <div className="App-header">
+            <SearchWidget openItemFunc={openItem} updateSearchString={updateSearchString} />
           </div>
+
+          {activeItem &&
+            <ContentViewer content={activeItem} goBackFunc={clearActiveItem} />
+          }
+
+          {!activeItem &&
+            <SearchResults sections={resultSections} visible={true} openItemFunc={openItem} />
+          }
         </div>
-        {this.state.activeJob && 
-          <div className="status-bar">
-          <div style={{flexShrink: '0'}}>({DataStore.jobCount} remaining)</div>
-            <div className="prog-container">
-              <ProgressBar value={null} />
-            </div>
-          <div className="download-location-text">Downloading local copy: {this.state.activeJob.location}</div>
-          </div>
-        }
       </div>
-    )
-  }
+      {activeJob &&
+        <div className="status-bar">
+          <div style={{ flexShrink: '0' }}>({DataStore.jobCount} remaining)</div>
+          <div className="prog-container">
+            <ProgressBar value={null} />
+          </div>
+          <div className="download-location-text">Downloading local copy: {activeJob.location}</div>
+        </div>
+      }
+    </div>
+  )
 }
 
-export default App;
+const createResultSections = async (string) => {
+  const results = await DataStore.getMemNodesMatching(string)
+  const rootTitle = results.length === 0 ? "no results" : ""
+
+  const sections = { promiseId: ++searchPromiseCount }
+  const rootSection = getSection("root", rootTitle, sections)
+  const parentCache = {}
+
+  for (const mem of results) {
+
+    if (mem.parent) {
+      const parent = await getParent(mem, parentCache)
+      const sectionTitle = (parent.path || parent.name)
+      const section = getSection(mem.parent, sectionTitle, sections)
+
+      if (mem.isLeaf)
+        section.mems.push(mem)
+      else
+        section.folders.push(mem)
+    } else {
+      rootSection.folders.push(mem)
+    }
+  }
+
+  return sections
+}
+
+const getParent = async (mem, cache) => {
+  const parent = cache[mem._id] || await DataStore.getMem(mem.parent)
+  cache[mem._id] = parent
+
+  return parent
+}
+
+const getSection = (id, title, sections) => {
+  const section = sections[id] || { id, title, mems: [], folders: [] }
+  sections[id] = section
+
+  return section
+}
