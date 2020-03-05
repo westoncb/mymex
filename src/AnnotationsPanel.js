@@ -4,7 +4,7 @@ import { TagInput, EditableText} from "@blueprintjs/core"
 import { IconNames } from "@blueprintjs/icons";
 import DataStore from './DataStore'
 
-export function AnnotationsPanel(props) {
+export default function AnnotationsPanel(props) {
     const [tags, setTags] = useState([])
     const [notes, setNotes] = useState("")
 
@@ -45,5 +45,3 @@ export function AnnotationsPanel(props) {
         </div>
     )
 }
-
-export default AnnotationsPanel
