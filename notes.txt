@@ -1,24 +1,19 @@
-Manage data sources dialog:
-	Screen for no data sources (maybe placeholder)
-	List sources with big preview buttons
-	Add data source 'group'
-		radio buttons for Chrome Bookmarks or Filesystem location
-		file chooser button + path display
-	Need to save/load these data sources to disk
-	Need to either do some kind of filesystem watch for changes, or periodic re-scans or data sources to keep synced.
-	Begin loading pages and rendering/saving thumbnails as soon as a new datasource is added (and when new items are found on later syncs)
+- Clean up and document code
+	-convert to function components
+	-clean up MemNode css
+	-sort out and document DataStore.js
 
-Content viewing
-	For remote locations, have a banner at the top indicating that you're viewing a local version, showing date of last sync, letting you select a previous version, or letting you 'view live' (which connects directly to remote version instead of just re-downloading and using local copy)
+	- Search tags, maybe URLs
+- Import folders
+- Think about sync workflow: maybe just do it every 10 seconds
+	- Show pop-up when new items are discovered during sync
+- Get download fresh version to work
+- Begin TypeScript re-write
 
-Read and sync flow
-	When adding data source or starting program:
-	-read in tree from data source
-	-convert to neutral tree format
-	-diff with previously stored tree for same data source
-		-go through all items in db for data source; diff is on 'location' property of elements
-	-add/remove data source elements based on diff results
-	-'location' should probably be primary key for elements
+
+Later:
+
+- Need to either do some kind of filesystem watch for changes, or periodic re-scans or data sources to keep synced.
 
 	For watching file system changes use https://nodejs.org/api/fs.html#fs_fs_watch_filename_options_listener
 
