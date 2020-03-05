@@ -22,7 +22,7 @@ export default class SearchResults extends PureComponent {
                         <div className="results-panel">
 
                         {sections.filter(section => section.folders.length > 0 || section.mems.length > 0).map(section => (
-                                <div key={section.id + "_section" + "_" + section.name} className="result-section">
+                                <div key={section.id} className="result-section">
                                     <div className="result-path">
                                         {section.title}
                                     </div>
