@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { useState } from "react";
 import './ContentViewer.css'
 import AnnotationsPanel from './AnnotationsPanel'
 import { Icon, Button, Tooltip, Position, NonIdealState } from "@blueprintjs/core";
@@ -7,85 +7,70 @@ const path = require('path')
 const electron = window.require('electron').remote
 const fs = electron.require('fs')
 
-class ContentViewer extends PureComponent {
+export default function ContentViewer(props) {
 
-    state = {viewingLocal: true, showAnnotations: false}
+    const [viewingLocal, setViewingLocal] = useState(true)
+    const [showAnnotations, setShowAnnotations] = useState(false)
 
-    handleGoBack = () => {
-        this.props.goBackFunc()
-    }
+    const handleGoBack = () => props.goBackFunc()
+    const handleToggleAnnotations = () => setShowAnnotations(!showAnnotations)
+    const handleSwitchVersion = () => setViewingLocal(!viewingLocal)
 
-    handleToggleAnnotations = async () => {
-        this.setState((state, props) => {
-            return {showAnnotations: !state.showAnnotations}
-        })
-    }
+    const localPath = "memexdata://" + path.join("local-mems", props.content._id) + ".pdf"
+    const remotePath = props.content.location
+    const localPathAbsolute = path.join(electron.app.getPath("userData"), "local-mems", props.content._id + ".pdf")
+    const localExists = fs.existsSync(localPathAbsolute)
+    const url = viewingLocal ? localPath : remotePath
 
-    handleSwitchVersion = () => {
-        this.setState((state, props) => {
-            return {viewingLocal: !state.viewingLocal}
-        })
-    }
+    const switchButtonMessage = `Switch to ${viewingLocal ? "live" : "local"} version`
+    const versionIcon = viewingLocal ? IconNames.DATABASE : IconNames.GLOBE_NETWORK
 
-    render() {
-        const localPath = "memexdata://" + path.join("local-mems", this.props.content._id) + ".pdf"
-        const remotePath = this.props.content.location
-        const localPathAlt = path.join(electron.app.getPath("userData"), "local-mems", this.props.content._id + ".pdf")
-        const localExists = fs.existsSync(localPathAlt)
-        const url = this.state.viewingLocal ? localPath : remotePath
-
-        const switchButtonMessage = `Switch to ${this.state.viewingLocal ? "live" : "local"} version`
-        const versionIcon = this.state.viewingLocal ? IconNames.DATABASE : IconNames.GLOBE_NETWORK
-
-        return (
-            <div className="content-viewer">
-                <div className="content-toolbar bp3-light">
-                    <div style={{display: "flex"}}>
-                        <Tooltip content="Go back to search results" position={Position.BOTTOM}>
-                            <Button onClick={this.handleGoBack} className="toolbar-button"><Icon icon={IconNames.ARROW_LEFT} iconSize={36} /></Button>
-                        </Tooltip>
-                        <div style={{width: "5rem"}}></div> 
-                        <Tooltip content="Show notes" position={Position.BOTTOM}>
-                            <Button onClick={this.handleToggleAnnotations} className="toolbar-button" style={{ marginRight: "1rem"}}><Icon icon={IconNames.ANNOTATION} iconSize={36} /></Button>
-                        </Tooltip>
-                        <Tooltip content={switchButtonMessage} position={Position.BOTTOM}>
-                            <Button onClick={this.handleSwitchVersion} className="toolbar-button"><Icon icon={IconNames.EXCHANGE} iconSize={36} /></Button>
-                        </Tooltip>
-                        <Tooltip content="Download fresh version" position={Position.BOTTOM}>
-                            <Button className="toolbar-button"><Icon icon={IconNames.DOWNLOAD} iconSize={36} /></Button>
-                        </Tooltip>
-                        <Tooltip content="View version history" position={Position.BOTTOM}>
-                            <Button className="toolbar-button"><Icon icon={IconNames.HISTORY} iconSize={36} /></Button>
-                        </Tooltip>
-                    </div>
-                    <div style={{display: "flex", alignItems: "flex-end"}}>
-                        <div className="local-status-message">
-                            <b>Viewing {this.state.viewingLocal ? " local " : " live "}</b>: {this.props.content.name}
-                        </div>
-                        <Icon className="version-icon" icon={versionIcon} iconSize={32} />
-                    </div>
+    return (
+        <div className="content-viewer">
+            <div className="content-toolbar bp3-light">
+                <div style={{ display: "flex" }}>
+                    <Tooltip content="Go back to search results" position={Position.BOTTOM}>
+                        <Button onClick={handleGoBack} className="toolbar-button"><Icon icon={IconNames.ARROW_LEFT} iconSize={36} /></Button>
+                    </Tooltip>
+                    <div style={{ width: "5rem" }}></div>
+                    <Tooltip content="Show notes" position={Position.BOTTOM}>
+                        <Button onClick={handleToggleAnnotations} className="toolbar-button" style={{ marginRight: "1rem" }}><Icon icon={IconNames.ANNOTATION} iconSize={36} /></Button>
+                    </Tooltip>
+                    <Tooltip content={switchButtonMessage} position={Position.BOTTOM}>
+                        <Button onClick={handleSwitchVersion} className="toolbar-button"><Icon icon={IconNames.EXCHANGE} iconSize={36} /></Button>
+                    </Tooltip>
+                    <Tooltip content="Download fresh version" position={Position.BOTTOM}>
+                        <Button className="toolbar-button"><Icon icon={IconNames.DOWNLOAD} iconSize={36} /></Button>
+                    </Tooltip>
+                    <Tooltip content="View version history" position={Position.BOTTOM}>
+                        <Button className="toolbar-button"><Icon icon={IconNames.HISTORY} iconSize={36} /></Button>
+                    </Tooltip>
                 </div>
-
-                {(localExists || !this.state.viewingLocal) && 
-                    <iframe className="content-iframe" src={url} />
-                }
-
-                {(!localExists && this.state.viewingLocal) &&
-                    <NonIdealState
-                        icon={IconNames.SEARCH}
-                        title="No local copy found"
-                        description="You might try using the button above to download a fresh copy!"
-                        action={undefined}
-                    />
-                }
-
-                {this.state.showAnnotations && 
-                    <AnnotationsPanel mem={this.props.content}/>
-                }
-
+                <div style={{ display: "flex", alignItems: "flex-end" }}>
+                    <div className="local-status-message">
+                        <b>Viewing {viewingLocal ? " local " : " live "}</b>: {props.content.name}
+                    </div>
+                    <Icon className="version-icon" icon={versionIcon} iconSize={32} />
+                </div>
             </div>
-        )
-    }
-}
 
-export default ContentViewer
+            {(localExists || !viewingLocal) &&
+                <iframe className="content-iframe" src={url} />
+            }
+
+            {(!localExists && viewingLocal) &&
+                <NonIdealState
+                    icon={IconNames.SEARCH}
+                    title="No local copy found"
+                    description="You might try using the button above to download a fresh copy!"
+                    action={undefined}
+                />
+            }
+
+            {showAnnotations &&
+                <AnnotationsPanel mem={props.content} />
+            }
+
+        </div>
+    )
+}
