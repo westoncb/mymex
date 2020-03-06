@@ -1,21 +1,15 @@
-import React, { PureComponent } from "react"
+import React from "react"
 import './MemNode.css'
 const path = require('path')
 
-class MemNode extends PureComponent {
-
-    handleClick = e => {
-        this.props.openItemFunc(this.props.node, false)
-    }
-
-    render() {
-        return (
-
-            <div className="node">
-                <div className="leaf-label" onClick={this.handleClick}>
-                    <img className="leaf-thumbnail" src={"memexdata://" + path.join("thumbnails", this.props.node._id) + ".png"} alt=""/>
-                    <div className='leaf-text'>{this.props.node.name}</div>
-                    {/* <div className="meta-panel" style={{visibility: this.state.hasMouse ? "visible" : "hidden"}}>
+export default function MemNode(props) {
+    
+    return (
+        <div className="node">
+            <div className="leaf-label" onClick={e => props.openItemFunc(props.node, false)}>
+                <img className="leaf-thumbnail" src={"memexdata://" + path.join("thumbnails", props.node._id) + ".png"} alt="" />
+                <div className='leaf-text'>{props.node.name}</div>
+                {/* <div className="meta-panel" style={{visibility: this.state.hasMouse ? "visible" : "hidden"}}>
                             <div className="meta-top">
                                 <div className="notes-editor" contentEditable={true}>
                                     Here are some notes about this item.
@@ -27,7 +21,7 @@ class MemNode extends PureComponent {
                             <div className="meta-bottom">
                                 <div className="meta-bottom-left">
                                     {
-                                    (this.props.node.tags || []).map((tag, i) => (
+                                    (props.node.tags || []).map((tag, i) => (
                                             <div className="tag" key={tag + "" + i}>{tag}</div>
                                         ))
                                     }
@@ -37,10 +31,7 @@ class MemNode extends PureComponent {
                                 </div>
                             </div>
                         </div> */}
-                </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
-
-export default MemNode
