@@ -39,7 +39,7 @@ export default class SearchWidget extends PureComponent {
         return (
             <div className="search-widget-container" onFocus={this.handleFocus} onBlur={this.handleBlur}>
                 <div className="input-results-group">
-                  <input className="search-input" type="text" ref={this.textInput} onChange={this.handleTextChange} />
+                  <input autoFocus className="search-input" type="text" ref={this.textInput} onChange={this.handleTextChange} />
                 </div>
 
               <Button style={{flexShrink: 0}} onClick={this.handleOpen}>
