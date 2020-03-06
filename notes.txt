@@ -1,19 +1,26 @@
 - Clean up and document code
+	-sort out and document DataStore.js
 	-convert to function components
 	-clean up MemNode css
-	-sort out and document DataStore.js
 
-	- Search tags, maybe URLs
-- Import folders
+- Import folders (start thinking about data-source import 'plugins'; should be able to grab data from APIs too, e.g. for importing twitter bookmarks)
 - Think about sync workflow: maybe just do it every 10 seconds
 	- Show pop-up when new items are discovered during sync
-- Get download fresh version to work
+	- Make it optional to actually delete items removed from data source (e.g. if I delete a bookmark in Chrome, I should be able to keep it in this app [perhaps it should be associated with faux/native/default "data source"])
+- Get "download fresh version" to work
 - Begin TypeScript re-write
 
 
 Later:
 
+- Handle iframe page not loading errors
+
 - Need to either do some kind of filesystem watch for changes, or periodic re-scans or data sources to keep synced.
+
+- Highlight matched elements in search results, e.g. highlight the tags or title substrings that matched the search text.
+
+
+- Search results pagination
 
 	For watching file system changes use https://nodejs.org/api/fs.html#fs_fs_watch_filename_options_listener
 
