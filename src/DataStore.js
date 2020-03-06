@@ -66,13 +66,10 @@ class DataStore {
                 this.jobCount = await this.workDB.count({})
 
                 if (this.activeJob) {
-                    console.log("found a job", this.activeJob.location)
-
                     this.jobChangeHandlers.forEach(handler => handler(this.activeJob))
 
                     await this.takeScreenshot(this.activeJob)
                     await this.workDB.remove({_id: this.activeJob._id})
-                    console.log("finished job: ", this.activeJob.location)
                 }
             } while (this.activeJob)
 
@@ -160,7 +157,6 @@ class DataStore {
             case C.DS_TYPE_CHROME:
 
                 memNodes = await this.importChromeBookmarks(dataSource);
-                console.log("memNodes", memNodes)
                 break;
             case C.DS_TYPE_DIRECTORY:
 
@@ -247,7 +243,12 @@ class DataStore {
     }
 
     static getMemNodesMatching(str) {
-        return this.memDB.find({name: new RegExp(str, 'i')}).sort({parent: 1})
+        const pattern = new RegExp(str, 'i')
+        const query = { $or: [{ name: pattern }, 
+            { tags: { $elemMatch: pattern}},
+            { notes: pattern},
+            { url: pattern}] }
+        return this.memDB.find(query).sort({parent: 1})
     }
 
     static getMem(id) {
