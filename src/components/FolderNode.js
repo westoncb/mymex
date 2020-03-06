@@ -1,19 +1,21 @@
-import React, { PureComponent } from "react";
+import React, { useState } from "react";
 import './FolderNode.css'
 import { Icon } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import DataStore from '../DataStore'
 import MemNode from './MemNode'
 
-class FolderNode extends PureComponent {
+export default function FolderNode(props) {
 
-    state = {folderChildren: [], memChildren: [], collapsed: true}
+    const [folderChildren, setFolderChildren] = useState([])
+    const [memChildren, setMemChildren] = useState([])
+    const [collapsed, setCollapsed] = useState(true)
 
-    handleClick = async e => {
+    const handleClick = async e => {
         e.stopPropagation()
 
-        if (this.state.collapsed) {
-            const children = await DataStore.getMems(this.props.node.children)
+        if (collapsed) {
+            const children = await DataStore.getMems(props.node.children)
             const memChildren = []
             const folderChildren = []
 
@@ -21,56 +23,49 @@ class FolderNode extends PureComponent {
                 child.isLeaf ? memChildren.push(child) : folderChildren.push(child)
             })
 
-            this.setState({memChildren, folderChildren})
+            setMemChildren(memChildren)
+            setFolderChildren(folderChildren)
         } else {
 
-            this.setState({ memChildren: [], folderChildren: [] })
+            setMemChildren([])
+            setFolderChildren([])
         }
 
-        this.setState((state, props) => ({ collapsed: !state.collapsed }))
+        setCollapsed(!collapsed)
     }
 
-    render() {
-        let nodeIcon
-        if (this.state.collapsed) {
-            nodeIcon = <Icon icon={IconNames.PLUS} />
-        } else {
-            nodeIcon = <Icon icon={IconNames.MINUS} />
-        }
+    const nodeIcon = collapsed ? <Icon icon={IconNames.PLUS} /> : <Icon icon={IconNames.MINUS} />
 
-        return (
-            <div>
-                <div className="folder-node no-select" onClick={this.handleClick}>
-                    <div className="left-section">
-                        {nodeIcon}
-                        <div className='node-text'>{this.props.node.name}</div>
-                    </div>
-                </div>
-
-                <div className="folder-children" style={{ marginLeft: this.props.depth * 2 + "rem" }}>
-                    {this.state.folderChildren.map(folder => (
-                        <FolderNode
-                            key={folder._id}
-                            depth={this.props.depth + 1}
-                            node={folder}
-                            openItemFunc={this.props.openItemFunc}
-                        />
-                    ))}
-                </div>
-
-                <div className="leaf-children" style={{ marginLeft: this.props.depth * 2 + "rem" }}>
-                    {this.state.memChildren.map(folder => (
-                        <MemNode
-                            key={folder._id}
-                            depth={this.props.depth + 1}
-                            node={folder}
-                            openItemFunc={this.props.openItemFunc}
-                        />
-                    ))}
+    return (
+        <div>
+            <div className="folder-node no-select" onClick={handleClick}>
+                <div className="left-section">
+                    {nodeIcon}
+                    <div className='node-text'>{props.node.name}</div>
                 </div>
             </div>
-        )
-    }
-}
 
-export default FolderNode
+            <div className="folder-children" style={{ marginLeft: props.depth * 2 + "rem" }}>
+                {folderChildren.map(folder => (
+                    <FolderNode
+                        key={folder._id}
+                        depth={props.depth + 1}
+                        node={folder}
+                        openItemFunc={props.openItemFunc}
+                    />
+                ))}
+            </div>
+
+            <div className="leaf-children" style={{ marginLeft: props.depth * 2 + "rem" }}>
+                {memChildren.map(folder => (
+                    <MemNode
+                        key={folder._id}
+                        depth={props.depth + 1}
+                        node={folder}
+                        openItemFunc={props.openItemFunc}
+                    />
+                ))}
+            </div>
+        </div>
+    )
+}
