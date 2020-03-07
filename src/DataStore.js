@@ -1,6 +1,6 @@
 const NEDB = require('nedb-promises')
 const path = require('path')
-import C from './constants'
+import CONST from './constants'
 const md5 = require('md5')
 const electron = window.require('electron').remote
 const fs = electron.require('fs')
@@ -42,7 +42,7 @@ class DataStore {
         this.memDB.insert(diff.nodesToAdd)
         this.memDB.remove(diff.nodesToRemove)
 
-        if (dataSource.type === C.DS_TYPE_CHROME) {
+        if (dataSource.type === CONST.DS_TYPE_CHROME) {
             await this.queueScreenshotJobs(diff.nodesToAdd.filter(node => node.isLeaf))
         }
     }
@@ -154,11 +154,11 @@ class DataStore {
         let memNodes
 
         switch (dataSource.type) {
-            case C.DS_TYPE_CHROME:
+            case CONST.DS_TYPE_CHROME:
 
                 memNodes = await this.importChromeBookmarks(dataSource);
                 break;
-            case C.DS_TYPE_DIRECTORY:
+            case CONST.DS_TYPE_DIRECTORY:
 
                 break;
             default:

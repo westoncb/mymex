@@ -3,14 +3,14 @@ import DataStore from "../DataStore"
 import { Icon, Button, Dialog, Classes, AnchorButton, NonIdealState, Divider, ControlGroup, RadioGroup, Radio } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import './DataSourceDialog.css' 
-import C from '../constants'
+import CONST from '../constants'
 const path = require('path')
 const electron = window.require('electron').remote
 const dialog = electron.dialog
 
 
 export default function DataSourceDialog(props) {
-    const [selectedSourceType, setSelectedSourceType] = useState(C.DS_TYPE_CHROME)
+    const [selectedSourceType, setSelectedSourceType] = useState(CONST.DS_TYPE_CHROME)
     const [dataSources, setDataSources] = useState([])
 
     useEffect(() => {
@@ -24,10 +24,10 @@ export default function DataSourceDialog(props) {
     const handleAddSourceButton = () => {
         let resultPromise
 
-        if (selectedSourceType === C.DS_TYPE_CHROME) {
+        if (selectedSourceType === CONST.DS_TYPE_CHROME) {
             const defaultPath = path.join(electron.app.getPath('home'), "/Library/Application Support/Google/Chrome/Default")
             resultPromise = dialog.showOpenDialog({title: "Select Chrome bookmarks file", defaultPath, properties: ['openFile'] })
-        } else if (selectedSourceType === C.DS_TYPE_DIRECTORY) {
+        } else if (selectedSourceType === CONST.DS_TYPE_DIRECTORY) {
             resultPromise = dialog.showOpenDialog({title: "Choose folder", properties: ['openDirectory', 'showHiddenFiles', 'createDirectory'] })
         }
 
@@ -74,8 +74,8 @@ export default function DataSourceDialog(props) {
                         onChange={handleSourceTypeChange}
                         selectedValue={selectedSourceType}
                     >
-                        <Radio label="Chrome bookmarks file" value={C.DS_TYPE_CHROME}></Radio>
-                        <Radio label="File system location" value={C.DS_TYPE_DIRECTORY}></Radio>
+                        <Radio label="Chrome bookmarks file" value={CONST.DS_TYPE_CHROME}></Radio>
+                        <Radio label="File system location" value={CONST.DS_TYPE_DIRECTORY}></Radio>
                     </RadioGroup>
                     <Button onClick={handleAddSourceButton}><Icon icon={IconNames.ADD} iconSize={42} /></Button>
                 </ControlGroup>
