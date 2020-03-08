@@ -3,43 +3,46 @@ import DataStore from "../DataStore"
 import { Icon, Button, Dialog, Classes, AnchorButton, NonIdealState, Divider, ControlGroup, RadioGroup, Radio } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import './DataSourceDialog.css' 
-import CONST from '../constants'
-const path = require('path')
-const electron = window.require('electron').remote
-const dialog = electron.dialog
-
+import Const from '../constants'
+import ChromeBookmarksDSC from "../ChromeBookmarksDSC"
+import LocalDirectoryDSC from "../LocalDirectoryDSC"
 
 export default function DataSourceDialog(props) {
-    const [selectedSourceType, setSelectedSourceType] = useState(CONST.DS_TYPE_CHROME)
+    const [selectedSourceType, setSelectedSourceType] = useState(Const.DS_TYPE_CHROME)
     const [dataSources, setDataSources] = useState([])
 
     useEffect(() => {
-        DataStore.getDataSources(freshDataSources => {
-            setDataSources(freshDataSources)
+        DataStore.getDataSources(dataSources => {
+            setDataSources(dataSources)
         })
     }, [])
 
     const handleSourceTypeChange = event => setSelectedSourceType(event.target.value)
 
-    const handleAddSourceButton = () => {
-        let resultPromise
+    const handleAddSourceButton = async () => {
+        // const connectorClass = connectorClassMap[selectedSourceType]
+        // const dataSourceConnector = new connectorClass()
+        // await dataSourceConnector.configureDataSource()
+        // DataStore.addDataSource(dataSourceConnector.serialize(), dataSource => {
+        //     console.log("new data source", dataSource)
+        //     setDataSources(dataSources.concat(dataSource))
+        // })
 
-        if (selectedSourceType === CONST.DS_TYPE_CHROME) {
-            const defaultPath = path.join(electron.app.getPath('home'), "/Library/Application Support/Google/Chrome/Default")
-            resultPromise = dialog.showOpenDialog({title: "Select Chrome bookmarks file", defaultPath, properties: ['openFile'] })
-        } else if (selectedSourceType === CONST.DS_TYPE_DIRECTORY) {
-            resultPromise = dialog.showOpenDialog({title: "Choose folder", properties: ['openDirectory', 'showHiddenFiles', 'createDirectory'] })
+        if (selectedSourceType === Const.DS_TYPE_CHROME) {
+            const chromeBookmarksDSC = new ChromeBookmarksDSC()
+            await chromeBookmarksDSC.configureDataSource()
+            DataStore.addDataSource(chromeBookmarksDSC.serialize(), dataSource => {
+                console.log("dataSources", dataSource)
+                setDataSources(dataSources.concat(dataSource))
+            })
+        } else if (selectedSourceType === Const.DS_TYPE_DIRECTORY) {
+            const localDirectoryDSC = new LocalDirectoryDSC()
+            await localDirectoryDSC.configureDataSource()
+            DataStore.addDataSource(localDirectoryDSC.serialize(), dataSource => {
+                console.log("dataSources", dataSource)
+                setDataSources(dataSources.concat(dataSource))
+            })
         }
-
-        resultPromise.then((result, err) => {
-            if (!result.canceled) {
-                const path = result.filePaths[0]
-                DataStore.addDataSource({ name: selectedSourceType, path, selectedSourceType }, dataSource => {
-                    console.log("dataSources", dataSource)
-                    setDataSources(dataSources.concat(dataSource))
-                })
-            }
-        })
     }
 
     let mainSection
@@ -53,7 +56,7 @@ export default function DataSourceDialog(props) {
     } else {
         mainSection =
             <div className="data-source-list">
-                {dataSources.map(ds => <div className="data-source-item" key={ds._id}>{ds.name}:{ds.path}</div>)}
+                {dataSources.map(ds => <div className="data-source-item" key={ds._id}>{ds.name}:{ds.customData.bookmarksLocation}</div>)}
             </div>
     }
 
@@ -74,8 +77,8 @@ export default function DataSourceDialog(props) {
                         onChange={handleSourceTypeChange}
                         selectedValue={selectedSourceType}
                     >
-                        <Radio label="Chrome bookmarks file" value={CONST.DS_TYPE_CHROME}></Radio>
-                        <Radio label="File system location" value={CONST.DS_TYPE_DIRECTORY}></Radio>
+                        <Radio label="Chrome bookmarks file" value={Const.DS_TYPE_CHROME}></Radio>
+                        <Radio label="File system location" value={Const.DS_TYPE_DIRECTORY}></Radio>
                     </RadioGroup>
                     <Button onClick={handleAddSourceButton}><Icon icon={IconNames.ADD} iconSize={42} /></Button>
                 </ControlGroup>

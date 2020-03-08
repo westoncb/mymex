@@ -5,10 +5,12 @@ import SearchResults from './SearchResults'
 import ContentViewer from './ContentViewer'
 import OpenTray from './OpenTray'
 import DataStore from '../DataStore'
+import DataSourceWorkQueue from '../DataSourceWorkQueue'
 import { ProgressBar } from "@blueprintjs/core";
 
 let initialized = false
 let searchPromiseCount = 0
+const dsWorkQueue = new DataSourceWorkQueue()
 
 export default function App(props) {
 
@@ -20,7 +22,7 @@ export default function App(props) {
   if (!initialized) {
     initialized = true
     DataStore.init()
-    DataStore.subscribeToJobChanges((job) => setActiveJob(job))
+    dsWorkQueue.subscribeToJobChanges((job) => setActiveJob(job))
   }
 
   const clearActiveItem = () => {

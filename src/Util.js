@@ -1,3 +1,4 @@
+import md5 from 'md5'
 
 class Util {    
 
@@ -59,6 +60,23 @@ class Util {
 
     static getRandomTagName() {
         return Util.tagNames[Math.floor((Util.tagNames.length-1)*Math.random())]
+    }
+
+    static idFromPath(path) {
+        return md5(path.toLowerCase())
+    }
+
+    static uniq(array, propName) {
+        const seen = {}
+        return array.filter(element => seen.hasOwnProperty(element[propName]) ? false : (seen[element[propName]] = true))
+    }
+
+    /**
+     * Returns the elements in array1 which are not in array2
+     */
+    static arrayDifference(array1, array2, propName) {
+        const ar2Set = new Set(array2.map(element => element[propName]))
+        return array1.filter(element => !ar2Set.has(element[propName]))
     }
 }
 
