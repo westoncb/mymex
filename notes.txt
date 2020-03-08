@@ -1,12 +1,12 @@
 - Clean up and document code
 	-sort out and document DataStore.js
-	-convert to function components
 	-clean up MemNode css
 
 - Import folders (start thinking about data-source import 'plugins'; should be able to grab data from APIs too, e.g. for importing twitter bookmarks)
 - Think about sync workflow: maybe just do it every 10 seconds
 	- Show pop-up when new items are discovered during sync
 	- Make it optional to actually delete items removed from data source (e.g. if I delete a bookmark in Chrome, I should be able to keep it in this app [perhaps it should be associated with faux/native/default "data source"])
+- Show annotations indicators in search results + button to show annotations panel
 - Get "download fresh version" to work
 - Begin TypeScript re-write
 
@@ -25,3 +25,7 @@ Later:
 	For watching file system changes use https://nodejs.org/api/fs.html#fs_fs_watch_filename_options_listener
 
 	For initial recursive traversal use: https://www.npmjs.com/package/walkdir
+
+
+Ideas:
+	- custom scrollbar component, showing a visual overview of results grouped into categories
