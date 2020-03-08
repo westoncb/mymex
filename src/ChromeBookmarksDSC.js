@@ -12,6 +12,7 @@ class ChromeBookmarksDSC extends DataSourceConnector {
     name
     _id
     bookmarksLocation
+    browserWindow
 
     constructor(config) {
         super()
@@ -40,18 +41,25 @@ class ChromeBookmarksDSC extends DataSourceConnector {
     }
 
     getName() {
-        
+        return this.name
     }
 
-    handleJob(job) {
-        
+    async handleJob(job) {
+        await this.takeScreenshot(job)
+    }
+
+    handleQueueEmptiedEvent() {
+        if (this.browserWindow) {
+            this.browserWindow.destroy()
+            this.browserWindow = null
+        }
     }
 
     async handleMemChanges(addedMems, removedMems) {
         await this.queueScreenshotJobs(addedMems.filter(mem => mem.isLeaf))
     }
 
-    serialize() {
+    export() {
         return {name: this.name, _id: this._id, type: Const.DS_TYPE_CHROME, customData: {bookmarksLocation: this.bookmarksLocation}}
     }
 
@@ -92,7 +100,7 @@ class ChromeBookmarksDSC extends DataSourceConnector {
     }
 
     queueScreenshotJobs(nodes) {
-        const jobs = nodes.map(node => ({ _id: node._id, location: node.location }))
+        const jobs = nodes.map(node => ({ _id: node._id, dataSourceId: this._id, priority: 10, customData: { location: node.location} }))
 
         DataStore.addJobs(jobs)
     }
@@ -101,7 +109,7 @@ class ChromeBookmarksDSC extends DataSourceConnector {
         // Not the best way of doing this, but the idea
         // is to prevent the download dialog that pops up
         // with urls pointing to pdfs (and other file types I'm sure)
-        if (job.location.endsWith(".pdf")) {
+        if (job.customData.location.endsWith(".pdf")) {
             return new Promise((resolve, reject) => resolve())
         }
 
@@ -113,8 +121,8 @@ class ChromeBookmarksDSC extends DataSourceConnector {
             })
         }
 
-        this.browserWindow.webContents.loadURL(job.location)
-        this.browserWindow.webContents.setAudioMuted(true)
+        this.browserWindow.webContents.loadURL(job.customData.location)
+        this.browserWindow.webContents.audioMuted = true
 
         return new Promise((resolve, reject) => {
             const errorEvents = ['crashed', 'unresponsive', 'plugin-crashed', 'did-fail-load']
@@ -150,8 +158,9 @@ class ChromeBookmarksDSC extends DataSourceConnector {
             }
 
             this.browserWindow.webContents.once('did-finish-load', finishedLoadingHandler)
-            errorEvents.forEach(event => this.browserWindow.webContents.once(event, () => {
+            errorEvents.forEach(event => this.browserWindow.webContents.once(event, e => {
                 clearTimeout(timeoutCode)
+                console.log("Browser error event", e)
                 finish()
             }))
         })

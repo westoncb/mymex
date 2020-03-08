@@ -11,6 +11,8 @@ class DataStore {
     static dataSourceDB
     static workDB
     static activeJob = null
+    static dataSourceConnectors = {}
+    static connectorClassMap = { [Const.DS_TYPE_CHROME]: ChromeBookmarksDSC, [Const.DS_TYPE_DIRECTORY]: LocalDirectoryDSC }
 
     static init() {
         
@@ -29,11 +31,6 @@ class DataStore {
         this.refreshAllDataSources()
     }
 
-    static getDSClassByName(name) {
-        const connectorClassMap = { [Const.DS_TYPE_CHROME]: ChromeBookmarksDSC, [Const.DS_TYPE_DIRECTORY]: LocalDirectoryDSC }
-        return connectorClassMap[name]
-    }
-
     static async refreshAllDataSources() {
         this.dataSourceDB.find({}).then(dataSources => {
             dataSources.forEach(dataSource => {
@@ -43,8 +40,7 @@ class DataStore {
     }
 
     static async refreshDataSource(dataSource) {
-        const connectorClass = this.getDSClassByName(dataSource.type)
-        const dsConnector = new connectorClass(dataSource)
+        const dsConnector = this.getDataSourceConnector(dataSource)
         const mems = await dsConnector.pullLatest()
 
         const changes = await this.findMemChanges(mems, dataSource._id)
@@ -64,18 +60,45 @@ class DataStore {
         return { memsToAdd, memsToRemove }
     }
 
+    static getDSClassByName(name) {
+        
+    }
+
+    static getDataSourceConnector(dataSource) {
+        let dsConnector = this.dataSourceConnectors[dataSource._id]
+
+        if (dsConnector)
+            return dsConnector
+
+        console.log("dataSource", dataSource)
+
+        const connectorClass = this.connectorClassMap[dataSource.type]
+        dsConnector = new connectorClass(dataSource)
+        this.dataSourceConnectors[dataSource._id] = dsConnector
+
+        return dsConnector
+    }
+
+    static getAllDataSourceConnectors() {
+        const keys = Object.keys(this.dataSourceConnectors)
+        return keys.map(key => this.dataSourceConnectors[key])
+    }
+
     static addDataSource(dataSource, func) {
         this.dataSourceDB.insert(dataSource).then(newDataSource => {
-            console.log("adding", dataSource, newDataSource)
             func(newDataSource)
             this.refreshDataSource(newDataSource)
         }, error => console.error(error))
     }
 
-    static getDataSources(func) {
+    static getAllDataSources(func) {
         this.dataSourceDB.find({}).then(dataSources => {
             func(dataSources)
         }, error => console.error(error))
+    }
+
+    static getDataSource(id) {
+        return this.dataSourceDB.findOne({_id: id})
     }
 
     static getMemNodesMatching(str) {

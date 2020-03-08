@@ -26,8 +26,12 @@ class DataSourceConnector {
      * This object will later be used as the sole parameter
      * to constructors of implementing subclasses.
      */
-    serialize() {
+    export() {
         throw "All subclasses of DataSourceConnector must implement serialize"
+    }
+
+    handleQueueEmptiedEvent() {
+        console.log("queue emptied")
     }
 }
 

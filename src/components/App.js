@@ -5,12 +5,12 @@ import SearchResults from './SearchResults'
 import ContentViewer from './ContentViewer'
 import OpenTray from './OpenTray'
 import DataStore from '../DataStore'
-import DataSourceWorkQueue from '../DataSourceWorkQueue'
+import DataSourceWorkPump from '../DataSourceWorkPump'
 import { ProgressBar } from "@blueprintjs/core";
 
 let initialized = false
 let searchPromiseCount = 0
-const dsWorkQueue = new DataSourceWorkQueue()
+const dsWorkPump = new DataSourceWorkPump()
 
 export default function App(props) {
 
@@ -18,11 +18,18 @@ export default function App(props) {
   const [activeItem, setActiveItem] = useState(null)
   const [resultSections, setResultSections] = useState({})
   const [activeJob, setActiveJob] = useState(null)
+  const [jobCount, setJobCount] = useState(0)
 
   if (!initialized) {
     initialized = true
     DataStore.init()
-    dsWorkQueue.subscribeToJobChanges((job) => setActiveJob(job))
+    DataStore.getAllDataSources(dataSources => {
+      dsWorkPump.init(dataSources)
+    })
+    dsWorkPump.subscribeToJobChangeEvents((job, count) => {
+      setActiveJob(job)
+      setJobCount(count)
+    })
   }
 
   const clearActiveItem = () => {
@@ -69,11 +76,11 @@ export default function App(props) {
       </div>
       {activeJob &&
         <div className="status-bar">
-          <div style={{ flexShrink: '0' }}>({DataStore.jobCount} remaining)</div>
+          <div style={{ flexShrink: '0' }}>({jobCount} remaining)</div>
           <div className="prog-container">
             <ProgressBar value={null} />
           </div>
-          <div className="download-location-text">Downloading local copy: {activeJob.location}</div>
+          <div className="download-location-text">Downloading local copy: {activeJob.customData.location}</div>
         </div>
       }
     </div>
