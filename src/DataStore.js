@@ -1,8 +1,6 @@
 import NEDB from 'nedb-promises'
 import path from 'path'
-import ChromeBookmarksDSC from "./ChromeBookmarksDSC"
-import LocalDirectoryDSC from "./LocalDirectoryDSC"
-import Const from './constants'
+import DSConnectorRegistry from './DSConnectorRegistry'
 import Util from './Util'
 const electron = window.require('electron').remote
 
@@ -11,8 +9,6 @@ class DataStore {
     static dataSourceDB
     static workDB
     static activeJob = null
-    static dataSourceConnectors = {}
-    static connectorClassMap = { [Const.DS_TYPE_CHROME]: ChromeBookmarksDSC, [Const.DS_TYPE_DIRECTORY]: LocalDirectoryDSC }
 
     static init() {
         
@@ -40,7 +36,7 @@ class DataStore {
     }
 
     static async refreshDataSource(dataSource) {
-        const dsConnector = this.getDataSourceConnector(dataSource)
+        const dsConnector = DSConnectorRegistry.getDataSourceConnector(dataSource)
         const mems = await dsConnector.pullLatest()
 
         const changes = await this.findMemChanges(mems, dataSource._id)
@@ -58,30 +54,6 @@ class DataStore {
         const memsToRemove = Util.arrayDifference(oldMems, memNodes, "_id")
 
         return { memsToAdd, memsToRemove }
-    }
-
-    static getDSClassByName(name) {
-        
-    }
-
-    static getDataSourceConnector(dataSource) {
-        let dsConnector = this.dataSourceConnectors[dataSource._id]
-
-        if (dsConnector)
-            return dsConnector
-
-        console.log("dataSource", dataSource)
-
-        const connectorClass = this.connectorClassMap[dataSource.type]
-        dsConnector = new connectorClass(dataSource)
-        this.dataSourceConnectors[dataSource._id] = dsConnector
-
-        return dsConnector
-    }
-
-    static getAllDataSourceConnectors() {
-        const keys = Object.keys(this.dataSourceConnectors)
-        return keys.map(key => this.dataSourceConnectors[key])
     }
 
     static addDataSource(dataSource, func) {

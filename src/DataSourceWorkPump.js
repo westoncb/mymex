@@ -1,4 +1,5 @@
 import DataStore from './DataStore'
+import DSConnectorRegistry from './DSConnectorRegistry'
 
 export default class DataSourceWorkPump {
     dataSources = {}
@@ -36,7 +37,7 @@ export default class DataSourceWorkPump {
             this.jobChangeSubscribers.forEach(handler => handler(activeJob, jobCount))
 
             const dataSource = await DataStore.getDataSource(activeJob.dataSourceId)
-            const dsConnector = DataStore.getDataSourceConnector(dataSource)
+            const dsConnector = DSConnectorRegistry.getDataSourceConnector(dataSource)
             await dsConnector.handleJob(activeJob)
 
             await DataStore.removeJob(activeJob._id)
