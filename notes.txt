@@ -1,11 +1,12 @@
 - Clean up and document code
-	-sort out and document DataStore.js
+	-document things
+	-fix warnings
 	-clean up MemNode css
 
-- Import folders (start thinking about data-source import 'plugins'; should be able to grab data from APIs too, e.g. for importing twitter bookmarks)
+- Implement LocalDirectoryDSC
 - Think about sync workflow: maybe just do it every 10 seconds
 	- Show pop-up when new items are discovered during sync
-	- Make it optional to actually delete items removed from data source (e.g. if I delete a bookmark in Chrome, I should be able to keep it in this app [perhaps it should be associated with faux/native/default "data source"])
+	- Make it optional to actually delete items removed from data source (e.g. if I delete a bookmark in Chrome, I should be able to keep it in this app [perhaps it should become associated with faux/native/default "data source" at that point])
 - Show annotations indicators in search results + button to show annotations panel
 - Get "download fresh version" to work
 - Begin TypeScript re-write
