@@ -113,7 +113,13 @@ class ChromeBookmarksDSC extends DataSourceConnector {
             return new Promise((resolve, reject) => resolve())
         }
 
-        if (!this.browserWindow) {
+        // It's probably best not to reconstruct this for each page we load, however
+        // re-constructing the BrowserWindow like this is the only way I've been able 
+        // to find that avoids an issue with webContents.printToPDF(...), where it stalls after
+        // the first capture. There are known bugs with this Electron feature and its behavior varies across
+        // Electron versions. Until the feature is more reliable, it seems like this reconstructing like
+        // this will be necessary.
+        if (!this.browserWindow || true) {
             this.browserWindow = new BrowserWindow({
                 show: false, webPreferences: {
                     plugins: true
@@ -132,29 +138,28 @@ class ChromeBookmarksDSC extends DataSourceConnector {
                 resolve()
             }
 
-            // A better solution would be to use a broswer timeout event, 
-            // but I haven't been able to find one
             const timeoutCode = setTimeout(() => {
-                console.log("screenshot job timed out: ", job.location)
+                console.log("screenshot job timed out: ", job.customData.location)
                 finish()
-            }, 20000)
+            }, 40000)
 
-            const finishedLoadingHandler = async () => {
-                // const screenshot = await this.browserWindow.webContents.capturePage()
-                // const pngScreenshot = screenshot.toPNG()
-                // const thumbPath = path.join(app.getPath("userData"), "/thumbnails")
-                // await fs.promises.mkdir(thumbPath, { recursive: true }).catch(console.error)
-                // await fs.writeFileSync(path.join(thumbPath, job._id + ".png"), pngScreenshot)
+            const finishedLoadingHandler = () => {
+                this.browserWindow.webContents.capturePage().then(screenshot => {
+                    const pngScreenshot = screenshot.toPNG()
+                    const thumbPath = path.join(electron.app.getPath("userData"), "/thumbnails")
+                    fs.promises.mkdir(thumbPath, { recursive: true }).catch(console.error).then(() => {
+                        fs.writeFileSync(path.join(thumbPath, job._id + ".png"), pngScreenshot)
 
-                const pdfPath = path.join(electron.app.getPath("userData"), "/local-mems")
-                await fs.promises.mkdir(pdfPath, { recursive: true }).catch(console.error)
-                this.browserWindow.webContents.printToPDF({}).then(pdfData => {
-                    fs.writeFile(path.join(pdfPath, job._id + ".pdf"), pdfData, (error) => {
-                        if (error) console.error(error)
+                        const pdfPath = path.join(electron.app.getPath("userData"), "/local-mems")
+                        fs.promises.mkdir(pdfPath, { recursive: true }).catch(console.error).then(() => {
+                            this.browserWindow.webContents.printToPDF({}).then(pdfData => {
+                                fs.writeFileSync(path.join(pdfPath, job._id + ".pdf"), pdfData)
+                                clearTimeout(timeoutCode)
+                                finish()
+                            }).catch(error => console.log(error))
+                        })
                     })
                 })
-                clearTimeout(timeoutCode)
-                finish()
             }
 
             this.browserWindow.webContents.once('did-finish-load', finishedLoadingHandler)
