@@ -48,41 +48,20 @@
     ajv-keywords "^3.1.0"
 
 "@electron/get@^1.0.1":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@electron/get/-/get-1.8.0.tgz#b10320e2b0ec55165e097862695be34b236ef0b5"
-  integrity sha512-p9q2KNfN12lhLzcSJwjOKbHHZcPCP+DMHXWLE/nFzJfyFDiPFAvOgLdKwz8WvGfzn2Y8YtYk1BhqvaNRow78ag==
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@electron/get/-/get-1.9.0.tgz#7fa6e61d7ff50fb82a8a41f437af7de3b97aa9a5"
+  integrity sha512-OBIKtF6ttIJotDXe4KJMUyTBO4xMii+mFjlA8R4CORuD4HvCUaCK3lPjhdTRCvuEv6gzWNbAvd9DNBv0v780lw==
   dependencies:
     debug "^4.1.1"
     env-paths "^2.2.0"
     fs-extra "^8.1.0"
     got "^9.6.0"
+    progress "^2.0.3"
     sanitize-filename "^1.6.2"
     sumchecker "^3.0.1"
   optionalDependencies:
     global-agent "^2.0.2"
     global-tunnel-ng "^2.7.1"
-
-"@fortawesome/fontawesome-common-types@^0.2.26":
-  version "0.2.26"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.26.tgz#6e0b13a752676036f8196f8a1500d53a27b4adc1"
-
-"@fortawesome/fontawesome-svg-core@^1.2.26":
-  version "1.2.26"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.26.tgz#671569271d6b532cdea5e3deb8ff16f8b7ac251d"
-  dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.2.26"
-
-"@fortawesome/free-solid-svg-icons@^5.12.0":
-  version "5.12.0"
-  resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.12.0.tgz#8decac5844e60453cc0c7c51437d1461df053a35"
-  dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.2.26"
-
-"@fortawesome/react-fontawesome@^0.1.8":
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/@fortawesome/react-fontawesome/-/react-fontawesome-0.1.8.tgz#cb6d4dd3aeec45b6ff2d48c812317a6627618511"
-  dependencies:
-    prop-types "^15.5.10"
 
 "@hapi/address@^2.1.2":
   version "2.1.4"
@@ -181,9 +160,9 @@
   integrity sha512-Jj2W7VWQ2uM83f8Ls5ON9adxN98MvyJsMSASYFuSvrov8RMRY64Ayay7KV35ph1TSGIJ2gG9ZVDdEq3c3zaydA==
 
 "@types/node@^12.0.12":
-  version "12.12.28"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.28.tgz#3a2b5f8d21f96ace690a8832ae9779114612575f"
-  integrity sha512-g73GJYJDXgf0jqg+P9S8h2acWbDXNkoCX8DLtJVu7Fkn788pzQ/oJsrdJz/2JejRf/SjfZaAhsw+3nd1D5EWGg==
+  version "12.12.29"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.29.tgz#46275f028b4e463b9ac5fefc1d08bc66cc193f25"
+  integrity sha512-yo8Qz0ygADGFptISDj3pOC9wXfln/5pQaN/ysDIzOaAWXt73cNHmtEC8zSO2Y+kse/txmwIAJzkYZ5fooaS5DQ==
 
 abab@^1.0.3:
   version "1.0.4"
@@ -2716,7 +2695,7 @@ electron-to-chromium@^1.1.0, electron-to-chromium@^1.2.7:
   version "1.3.284"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.284.tgz#b24359fa4f49b3a7c52afc005d59ec3aa9f6796e"
 
-electron@electron@9.0.0-beta.3:
+electron@9.0.0-beta.3:
   version "9.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/electron/-/electron-9.0.0-beta.3.tgz#7a825a58d4561c71a21f96cc900cf9da761aa484"
   integrity sha512-se2XiC3sc6o8EUL/uE7bOknW7/gh37mQ+7uX8idugfYyK1oCISfr5CqtVXOMNTwMtx0opdFQ1HFC+W2ckNiPXg==
@@ -3091,7 +3070,6 @@ esprima@^3.1.3:
 esprima@^4.0.0, esprima@~4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-4.0.1.tgz#13b04cdb3e6c5d19df91ab6987a8695619b0aa71"
-  integrity sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==
 
 esquery@^1.0.0:
   version "1.1.0"
@@ -6591,7 +6569,7 @@ progress@^1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/progress/-/progress-1.1.8.tgz#e260c78f6161cdd9b0e56cc3e0a85de17c7a57be"
 
-progress@^2.0.0:
+progress@^2.0.0, progress@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
@@ -6602,7 +6580,7 @@ promise@7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   dependencies:
