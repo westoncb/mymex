@@ -106,12 +106,14 @@ class ChromeBookmarksDSC extends DataSourceConnector {
     }
 
     async takeScreenshot(job) {
-        // Not the best way of doing this, but the idea
-        // is to prevent the download dialog that pops up
-        // with urls pointing to pdfs (and other file types I'm sure)
-        if (job.customData.location.endsWith(".pdf")) {
-            return new Promise((resolve, reject) => resolve())
-        }
+        // This is a way of avoiding downloading PDFs since they
+        // bring up a download prompt if the PDF plugin isn't working
+        // correctly. In most Electron versions it does not work correctly.
+        // However, as long as it's viable to use a beta version where it
+        // is working correctly it should be disabled.
+        // if (job.customData.location.endsWith(".pdf")) {
+        //     return new Promise((resolve, reject) => resolve())
+        // }
 
         // It's probably best not to reconstruct this for each page we load, however
         // re-constructing the BrowserWindow like this is the only way I've been able 
