@@ -45,7 +45,7 @@ class ChromeBookmarksDSC extends DataSourceConnector {
     }
 
     async handleJob(job) {
-        await this.takeScreenshot(job)
+        await this.copyWebResource(job)
     }
 
     handleQueueEmptiedEvent() {
@@ -56,7 +56,15 @@ class ChromeBookmarksDSC extends DataSourceConnector {
     }
 
     async handleMemChanges(addedMems, removedMems) {
-        await this.queueScreenshotJobs(addedMems.filter(mem => mem.isLeaf))
+        /**
+         * Job object format:
+         * {_id: string, dataSourceId: string, priority: number, customData: object}
+         */
+
+        // Make a job for each leaf not to capture the web resource it points to
+        // as a screenshot and PDF pair
+        const jobs = addedMems.filter(mem => mem.isLeaf).map(node => ({ _id: node._id, dataSourceId: this._id, priority: 10, customData: { location: node.location } }))
+        await DataStore.addJobs(jobs)
     }
 
     export() {
@@ -99,13 +107,7 @@ class ChromeBookmarksDSC extends DataSourceConnector {
         return memNode
     }
 
-    queueScreenshotJobs(nodes) {
-        const jobs = nodes.map(node => ({ _id: node._id, dataSourceId: this._id, priority: 10, customData: { location: node.location} }))
-
-        DataStore.addJobs(jobs)
-    }
-
-    async takeScreenshot(job) {
+    async copyWebResource(job) {
         // This is a way of avoiding downloading PDFs since they
         // bring up a download prompt if the PDF plugin isn't working
         // correctly. In most Electron versions it does not work correctly.
@@ -141,7 +143,7 @@ class ChromeBookmarksDSC extends DataSourceConnector {
             }
 
             const timeoutCode = setTimeout(() => {
-                console.log("screenshot job timed out: ", job.customData.location)
+                console.log("web resource copy job timed out: ", job.customData.location)
                 finish()
             }, 40000)
 
