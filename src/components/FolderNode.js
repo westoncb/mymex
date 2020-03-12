@@ -61,7 +61,7 @@ export default function FolderNode(props) {
                     <MemNode
                         key={folder._id}
                         depth={props.depth + 1}
-                        node={folder}
+                        mem={folder}
                         openItemFunc={props.openItemFunc}
                     />
                 ))}

@@ -36,7 +36,7 @@ export default function SearchResults(props) {
                                     {section.mems.map(child => (
                                         <MemNode
                                             key={child._id}
-                                            node={child}
+                                            mem={child}
                                             depth={1}
                                             openItemFunc={props.openItemFunc}
                                         />

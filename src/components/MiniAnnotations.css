@@ -1,0 +1,12 @@
+.mini-annotations {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0.25rem;
+    background-color: #192732da;
+    color: white;
+    height: 1.5rem;
+    width: 100%;
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.12);
+}
