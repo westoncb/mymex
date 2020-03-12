@@ -1,7 +1,6 @@
 - Clean up and document code
-	-document things
+	-document DataStore/DataSourceWorkPump/DataSourceConnector etc.
 	-fix warnings
-	-clean up MemNode css
 
 - Implement LocalDirectoryDSC
 - Think about sync workflow: maybe just do it every 10 seconds
@@ -13,6 +12,10 @@
 
 
 Later:
+
+- Look into testing with Jest
+
+- Look into Storybook
 
 - Handle iframe page not loading errors
 
