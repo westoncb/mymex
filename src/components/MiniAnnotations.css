@@ -1,8 +1,4 @@
 .mini-annotations {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -12,7 +8,10 @@
     height: 3rem;
     width: 100%;
     box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.12);
-    border: 1px solid rgba(0, 0, 0, 0.2)
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    border: 1px solid #333;
+    margin-top: 0.25rem;
 }
 
 .mini-tag {
