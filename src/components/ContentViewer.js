@@ -33,7 +33,7 @@ export default function ContentViewer(props) {
                         <Button onClick={handleGoBack} className="toolbar-button"><Icon icon={IconNames.ARROW_LEFT} iconSize={36} /></Button>
                     </Tooltip>
                     <div style={{ width: "5rem" }}></div>
-                    <Tooltip content="Show notes" position={Position.BOTTOM}>
+                    <Tooltip content="Show annotations" position={Position.BOTTOM}>
                         <Button onClick={handleToggleAnnotations} className="toolbar-button" style={{ marginRight: "1rem" }}><Icon icon={IconNames.ANNOTATION} iconSize={36} /></Button>
                     </Tooltip>
                     <Tooltip content={switchButtonMessage} position={Position.BOTTOM}>
@@ -44,6 +44,9 @@ export default function ContentViewer(props) {
                     </Tooltip>
                     <Tooltip content="View version history" position={Position.BOTTOM}>
                         <Button className="toolbar-button"><Icon icon={IconNames.HISTORY} iconSize={36} /></Button>
+                    </Tooltip>
+                    <Tooltip content="Open in browser" position={Position.BOTTOM}>
+                        <Button className="toolbar-button" style={{ marginLeft: "1rem" }}><Icon icon={IconNames.APPLICATION} iconSize={36} /></Button>
                     </Tooltip>
                 </div>
                 <div style={{ display: "flex", alignItems: "flex-end" }}>
