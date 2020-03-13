@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DataSourceDialog from './DataSourceDialog';
 import './SearchWidget.css'
-import { Icon, Button } from "@blueprintjs/core";
+import { Icon, Button, InputGroup } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
 export default function SearchWidget(props) {
@@ -16,7 +16,13 @@ export default function SearchWidget(props) {
     return (
         <div className="search-widget-container">
             <div className="input-results-group">
-                <input autoFocus className="search-input" type="text" onChange={handleTextChange} />
+                <InputGroup
+                    autoFocus
+                    large={true}
+                    leftIcon="search"
+                    onChange={handleTextChange}
+                    placeholder="Search..."
+                />
             </div>
 
             <Button style={{ flexShrink: 0 }} onClick={() => setIsDialogOpen(true)}>

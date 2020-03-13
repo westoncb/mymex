@@ -1,9 +1,9 @@
 .results-panel {
-    background-color: white;
+    background-color: #394752;
 }
 
 .result-path {
-    color: #bbb;
+    color: #ffffff66;
     font-size: 0.9rem;
     text-align: left;
     padding-left: 1rem;
@@ -11,7 +11,7 @@
 }
 
 .result-section {
-    border-bottom: 4px solid #eee;
+    border-bottom: 4px solid #293742;
     padding-bottom: 1.5rem;
     padding-top: 0.5rem;
 }

@@ -1,4 +1,5 @@
 .search-widget-container {
+    background-color: #495762;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

@@ -27,7 +27,7 @@ export default function AnnotationsPanel(props) {
     }
 
     return (
-        <div className="annotations-panel bp3-dark">
+        <div className="annotations-panel">
             <EditableText
                 multiline
                 alwaysRenderInput

@@ -56,14 +56,12 @@ export default function App(props) {
   }
 
   return (
-    <div className="App">
+    <div className="App bp3-dark">
       <div className="app-top">
         {/* <OpenTray openItems={tabs} /> */}
 
         <div className="right-column">
-          <div className="App-header">
-            <SearchWidget openItemFunc={openItem} updateSearchString={updateSearchString} />
-          </div>
+          <SearchWidget openItemFunc={openItem} updateSearchString={updateSearchString} />
 
           {activeItem &&
             <ContentViewer content={activeItem} goBackFunc={clearActiveItem} />
