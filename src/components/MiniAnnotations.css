@@ -4,7 +4,6 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.75rem;
-    background-color: #293742f1;
     height: 3rem;
     width: 100%;
     box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.12);
@@ -12,8 +11,29 @@
     border-radius: 5px;
     border: 1px solid #333;
     margin-top: 0.25rem;
+    will-change: transform, height, background-color;
+    z-index: 10;
 }
 
 .mini-tag {
     margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.tags-preview-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+.notes-preview {
+    flex-grow: 0;
+    overflow: hidden;
+    max-height: 6.25rem;
+    margin-bottom: 0.5rem;
+}
+
+hr {
+    border-color: rgba(255, 255, 255, 0.25);
 }
