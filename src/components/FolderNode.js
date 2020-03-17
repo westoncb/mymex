@@ -52,6 +52,7 @@ export default function FolderNode(props) {
                         depth={props.depth + 1}
                         node={folder}
                         openItemFunc={props.openItemFunc}
+                        setAnnotationItem={props.setAnnotationItem}
                     />
                 ))}
             </div>
@@ -63,6 +64,7 @@ export default function FolderNode(props) {
                         depth={props.depth + 1}
                         mem={folder}
                         openItemFunc={props.openItemFunc}
+                        setAnnotationItem={props.setAnnotationItem}
                     />
                 ))}
             </div>

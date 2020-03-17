@@ -8,6 +8,7 @@ export default function MiniAnnotations(props) {
     const [hasMouse, setHasMouse] = useState(false)
     const [expanded, setExpanded] = useState(false)
     const [flexDirection, setFlexDirection] = useState("row")
+    
     const panelProps = useSpring({
             height: hasMouse ? "100%" : "3rem",
             backgroundColor: hasMouse ? "rgba(220, 220, 255, 0.3)" : "rgba(255, 255, 255, 0.2)",
@@ -19,7 +20,7 @@ export default function MiniAnnotations(props) {
 
     const notesElements = expanded 
                             ? <div><div className="notes-preview">{notes}</div> <hr /></div> 
-                            : <Icon style={{ ...props, color: "#ddbc44", marginRight: "0.5rem" }} icon={IconNames.COMMENT} iconSize={20} />
+                            : <Icon style={{color: "#ddbc44", marginRight: "0.5rem" }} icon={IconNames.COMMENT} iconSize={20} />
     const tagsElements = !expanded 
                             ? <OverflowList
                                 key="2"
@@ -37,6 +38,10 @@ export default function MiniAnnotations(props) {
                                     {tags.map(tag => (<Tag className="mini-tag" key={tag}>{tag}</Tag>))}
                                 </div>
 
+    const handleClick = e => {
+        e.stopPropagation()
+        props.setAnnotationItem(props.mem)
+    }
 
     return (
         <animated.div 
@@ -44,7 +49,7 @@ export default function MiniAnnotations(props) {
             style={{ ...panelProps, flexDirection }}
             onMouseEnter={e => setHasMouse(true)}
             onMouseLeave={e => { setHasMouse(false); setFlexDirection("row"); setExpanded(false)}}
-            onClick={e => e.stopPropagation()}>
+            onClick={handleClick}>
 
             {notes && 
                 notesElements

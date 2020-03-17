@@ -27,6 +27,7 @@ export default function SearchResults(props) {
                                         node={folder}
                                         depth={1}
                                         openItemFunc={props.openItemFunc}
+                                        setAnnotationItem={props.setAnnotationItem}
                                     />
                                 ))}
                             </div>
@@ -38,6 +39,7 @@ export default function SearchResults(props) {
                                         mem={child}
                                         depth={1}
                                         openItemFunc={props.openItemFunc}
+                                        setAnnotationItem={props.setAnnotationItem}
                                     />
                                 ))}
                             </div>

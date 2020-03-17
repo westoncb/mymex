@@ -21,7 +21,7 @@ export default function MemNode(props) {
             <div className="mem-thumbnail" style={{backgroundImage: "url(" + thumbnailPath + ")"}}></div>
             
             {(props.mem.notes || props.mem.tags) && 
-                <MiniAnnotations mem={props.mem} />
+                <MiniAnnotations mem={props.mem} setAnnotationItem={props.setAnnotationItem} />
             }
         </div>
     )

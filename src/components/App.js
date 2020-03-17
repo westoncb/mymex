@@ -6,7 +6,9 @@ import ContentViewer from './ContentViewer'
 import OpenTray from './OpenTray'
 import DataStore from '../DataStore'
 import DataSourceWorkPump from '../DataSourceWorkPump'
-import { ProgressBar } from "@blueprintjs/core";
+import { ProgressBar } from "@blueprintjs/core"
+import AnnotationsPanel from './AnnotationsPanel'
+
 
 let initialized = false
 let searchPromiseCount = 0
@@ -16,6 +18,7 @@ export default function App(props) {
 
   const [tabs, setTabs] = useState([])
   const [activeItem, setActiveItem] = useState(null)
+  const [annotationItem, setAnnotationItem] = useState(null)
   const [resultSections, setResultSections] = useState({})
   const [activeJob, setActiveJob] = useState(null)
   const [jobCount, setJobCount] = useState(0)
@@ -68,7 +71,7 @@ export default function App(props) {
           }
 
           {!activeItem &&
-            <SearchResults sections={resultSections} visible={true} openItemFunc={openItem} />
+            <SearchResults sections={resultSections} visible={true} openItemFunc={openItem} setAnnotationItem={setAnnotationItem} />
           }
         </div>
       </div>
@@ -80,6 +83,10 @@ export default function App(props) {
           </div>
           <div className="download-location-text">Downloading local copy: {activeJob.customData.location}</div>
         </div>
+      }
+
+      {annotationItem &&
+        <AnnotationsPanel mem={annotationItem} />
       }
     </div>
   )

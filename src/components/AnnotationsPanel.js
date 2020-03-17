@@ -11,8 +11,8 @@ export default function AnnotationsPanel(props) {
     useEffect(() => {
         const func = async () => {
             const mem = await DataStore.getMem(props.mem._id)
-            setTags(mem.tags || tags)
-            setNotes(mem.notes || notes)
+            setTags(mem.tags || [])
+            setNotes(mem.notes || "")
         }
         func()
     }, [props.mem._id])
