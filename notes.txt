@@ -10,6 +10,10 @@
 - Get "download fresh version" to work
 - Begin TypeScript re-write
 
+Ensure database contents will be safely preserved:
+	- Save to local file rather than IndexedDB
+	- Think about handling migrations
+
 
 Later:
 
