@@ -8,7 +8,7 @@ import DataStore from '../DataStore'
 import DataSourceWorkPump from '../DataSourceWorkPump'
 import { ProgressBar } from "@blueprintjs/core"
 import AnnotationsPanel from './AnnotationsPanel'
-
+import {useTransition, animated} from 'react-spring'
 
 let initialized = false
 let searchPromiseCount = 0
@@ -22,6 +22,13 @@ export default function App(props) {
   const [resultSections, setResultSections] = useState({})
   const [activeJob, setActiveJob] = useState(null)
   const [jobCount, setJobCount] = useState(0)
+
+  const annotationsPanelTransitions = useTransition(annotationItem, null, {
+    from: {opacity: 0},
+    enter: {opacity: 1},
+    leave: {opacity: 0}
+  })
+  const AnimatedAnnotationsPanel = animated(AnnotationsPanel)
 
   if (!initialized) {
     initialized = true
@@ -67,7 +74,7 @@ export default function App(props) {
           <SearchWidget openItemFunc={openItem} updateSearchString={updateSearchString} />
 
           {activeItem &&
-            <ContentViewer content={activeItem} goBackFunc={clearActiveItem} />
+            <ContentViewer content={activeItem} goBackFunc={clearActiveItem} setAnnotationItem={setAnnotationItem} />
           }
 
           {!activeItem &&
@@ -85,9 +92,9 @@ export default function App(props) {
         </div>
       }
 
-      {annotationItem &&
-        <AnnotationsPanel mem={annotationItem} />
-      }
+      {annotationsPanelTransitions.map(({ item, key, props }) => (
+        item && <AnimatedAnnotationsPanel key={key} style={props} mem={item} />
+      ))}
     </div>
   )
 }
