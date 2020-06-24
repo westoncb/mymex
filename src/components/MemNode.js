@@ -8,9 +8,14 @@ const path = require('path')
 export default function MemNode(props) {
 
     const thumbnailPath = "memexdata://" + path.join("thumbnails", props.mem._id) + ".png"
+
+    const handleClick = e => {
+        props.setAnnotationItem(null) 
+        props.openItemFunc(props.mem, false)
+    }
     
     return (
-        <div className="mem-node" onClick={e => props.openItemFunc(props.mem, false)}>
+        <div className="mem-node" onClick={handleClick}>
 
             <div className='mem-text'>
                 <span className="ds-icon-container">

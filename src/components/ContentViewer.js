@@ -10,10 +10,22 @@ const fs = electron.require('fs')
 export default function ContentViewer(props) {
 
     const [viewingLocal, setViewingLocal] = useState(true)
-    const [showAnnotations, setShowAnnotations] = useState(false)
+    const [showingAnnotations, setshowingAnnotations] = useState(false)
 
-    const handleGoBack = () => props.goBackFunc()
-    const handleToggleAnnotations = () => setShowAnnotations(!showAnnotations)
+    const handleGoBack = () => {
+        props.setAnnotationItem(null)
+        props.goBackFunc()
+    }
+
+    const handleToggleAnnotations = () => {
+        if (!showingAnnotations) {
+            props.setAnnotationItem(props.content)
+        } else {
+            props.setAnnotationItem(null)
+        }
+
+        setshowingAnnotations(!showingAnnotations)
+    }
     const handleSwitchVersion = () => setViewingLocal(!viewingLocal)
 
     const localPath = "memexdata://" + path.join("local-mems", props.content._id) + ".pdf"
@@ -68,10 +80,6 @@ export default function ContentViewer(props) {
                     description="You might try using the button above to download a fresh copy!"
                     action={undefined}
                 />
-            }
-
-            {showAnnotations &&
-                <AnnotationsPanel mem={props.content} />
             }
 
         </div>
