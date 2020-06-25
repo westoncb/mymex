@@ -30,9 +30,9 @@ Later:
 
 - Search results pagination
 
-	For watching file system changes use https://nodejs.org/api/fs.html#fs_fs_watch_filename_options_listener
+For watching file system changes use https://nodejs.org/api/fs.html#fs_fs_watch_filename_options_listener
 
-	For initial recursive traversal use: https://www.npmjs.com/package/walkdir
+For initial recursive traversal use: https://www.npmjs.com/package/walkdir
 
 
 Ideas:

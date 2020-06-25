@@ -2702,10 +2702,10 @@ electron-to-chromium@^1.1.0, electron-to-chromium@^1.2.7:
   version "1.3.284"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.284.tgz#b24359fa4f49b3a7c52afc005d59ec3aa9f6796e"
 
-electron@9.0.0-beta.3:
-  version "9.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-9.0.0-beta.3.tgz#7a825a58d4561c71a21f96cc900cf9da761aa484"
-  integrity sha512-se2XiC3sc6o8EUL/uE7bOknW7/gh37mQ+7uX8idugfYyK1oCISfr5CqtVXOMNTwMtx0opdFQ1HFC+W2ckNiPXg==
+electron@9.0.5:
+  version "9.0.5"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-9.0.5.tgz#189ee117cc2a2777cccf40fae0766acec5faae57"
+  integrity sha512-bnL9H48LuQ250DML8xUscsKiuSu+xv5umXbpBXYJ0BfvYVmFfNbG3jCfhrsH7aP6UcQKVxOG1R/oQExd0EFneQ==
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"
@@ -8446,6 +8446,11 @@ wait-on@^4.0.0:
     request "^2.88.0"
     request-promise-native "^1.0.8"
     rxjs "^6.5.4"
+
+walkdir@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/walkdir/-/walkdir-0.4.1.tgz#dc119f83f4421df52e3061e514228a2db20afa39"
+  integrity sha512-3eBwRyEln6E1MSzcxcVpQIhRG8Q1jLvEqRmCZqS3dsfXEDR/AhOF4d+jHg1qvDCpYaVRZjENPQyrVxAkQqxPgQ==
 
 walker@~1.0.5:
   version "1.0.7"

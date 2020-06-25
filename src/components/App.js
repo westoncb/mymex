@@ -119,7 +119,11 @@ const createResultSections = async (string) => {
       else
         section.folders.push(mem)
     } else {
-      rootSection.folders.push(mem)
+      if (mem.isLeaf) {
+        rootSection.mems.push(mem)
+      } else {
+        rootSection.folders.push(mem)
+      }
     }
   }
 

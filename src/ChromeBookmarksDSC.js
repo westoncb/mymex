@@ -2,6 +2,7 @@ import DataSourceConnector from './DataSourceConnector'
 import Const from './constants'
 import DataStore from './DataStore'
 import Util from './Util'
+
 const electron = window.require('electron').remote
 const dialog = electron.dialog
 const path = require('path')
@@ -33,6 +34,11 @@ class ChromeBookmarksDSC extends DataSourceConnector {
             this.name = "Chrome Bookmarks DS"
             this._id = Util.idFromPath(selectedPath)
             this.bookmarksLocation = selectedPath
+
+            return true
+        } else {
+
+            return false
         }
     }
 
@@ -69,6 +75,10 @@ class ChromeBookmarksDSC extends DataSourceConnector {
 
     export() {
         return {name: this.name, _id: this._id, type: Const.DS_TYPE_CHROME, customData: {bookmarksLocation: this.bookmarksLocation}}
+    }
+
+    watch() {
+        
     }
 
     importChromeBookmarkData() {

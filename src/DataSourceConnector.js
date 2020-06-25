@@ -27,7 +27,11 @@ class DataSourceConnector {
      * to constructors of implementing subclasses.
      */
     export() {
-        throw "All subclasses of DataSourceConnector must implement serialize"
+        throw "All subclasses of DataSourceConnector must implement export"
+    }
+
+    watch() {
+        throw "All subclasses of DataSourceConnector must implement watch"
     }
 
     handleQueueEmptiedEvent() {

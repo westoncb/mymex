@@ -30,18 +30,22 @@ export default function DataSourceDialog(props) {
 
         if (selectedSourceType === Const.DS_TYPE_CHROME) {
             const chromeBookmarksDSC = new ChromeBookmarksDSC()
-            await chromeBookmarksDSC.configureDataSource()
-            DataStore.addDataSource(chromeBookmarksDSC.export(), dataSource => {
-                console.log("dataSources", dataSource)
-                setDataSources(dataSources.concat(dataSource))
-            })
+            const success = await chromeBookmarksDSC.configureDataSource()
+            if (success) {
+                DataStore.addDataSource(chromeBookmarksDSC.export(), dataSource => {
+                    console.log("dataSources", dataSource)
+                    setDataSources(dataSources.concat(dataSource))
+                })
+            }
         } else if (selectedSourceType === Const.DS_TYPE_DIRECTORY) {
             const localDirectoryDSC = new LocalDirectoryDSC()
-            await localDirectoryDSC.configureDataSource()
-            DataStore.addDataSource(localDirectoryDSC.export(), dataSource => {
-                console.log("dataSources", dataSource)
-                setDataSources(dataSources.concat(dataSource))
-            })
+            const success = await localDirectoryDSC.configureDataSource()
+            if (success) {
+                DataStore.addDataSource(localDirectoryDSC.export(), dataSource => {
+                    console.log("dataSources", dataSource)
+                    setDataSources(dataSources.concat(dataSource))
+                })
+            }
         }
     }
 
