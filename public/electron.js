@@ -8,6 +8,8 @@ let mainWindow;
 
 const protocol = electron.protocol
 
+global.NEDB = require('nedb-promises')
+
 protocol.registerSchemesAsPrivileged([{scheme: "memexdata", privileges: { standard: true, bypassCSP: true}}])
 
 function createWindow() {

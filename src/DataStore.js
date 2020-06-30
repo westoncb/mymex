@@ -1,8 +1,8 @@
-import NEDB from 'nedb-promises'
 import path from 'path'
 import DSConnectorRegistry from './DSConnectorRegistry'
 import Util from './Util'
 const electron = window.require('electron').remote
+const NEDB = electron.getGlobal('NEDB')
 
 class DataStore {
     static memDB
