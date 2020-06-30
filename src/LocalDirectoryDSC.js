@@ -47,17 +47,20 @@ class LocalDirectoryDSC extends DataSourceConnector {
     }
 
     async pullLatest() {
-        console.log("the path", this.path)
-        const emitter = walk(this.path)
-        const memNodes = []
+        return walk.async(this.path, { return_object: true }).then((result, error) => {
 
-        emitter.on("file", (path, stat) => {
-            const obj = pathLib.parse(path)
-            const memNode = {_id: Util.idFromPath(path), name: obj.name, isLeaf: true, location: path, dataSourceId: this._id }
-            memNodes.push(memNode)
+            return Object.keys(result)
+
+        }).then(paths => {
+            const memNodes = paths.map(path => {
+                const obj = pathLib.parse(path)
+                const memNode = { _id: Util.idFromPath(path), name: obj.name, isLeaf: true, location: path, dataSourceId: this._id }
+
+                return memNode
+            })
+
+            return Util.uniq(memNodes, "_id")
         })
-
-        return Util.uniq(memNodes, "_id")
     }
 
     getName() {
