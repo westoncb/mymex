@@ -36,7 +36,7 @@ class DataStore {
     }
 
     static async refreshDataSource(dataSource) {
-        const dsConnector = DSConnectorRegistry.getDataSourceConnector(dataSource)
+        const dsConnector = await DSConnectorRegistry.getDataSourceConnector(dataSource._id)
         const mems = await dsConnector.pullLatest()
 
         const changes = await this.findMemChanges(mems, dataSource._id)

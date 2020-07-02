@@ -36,8 +36,7 @@ export default class DataSourceWorkPump {
             didSomeWork = true
             this.jobChangeSubscribers.forEach(handler => handler(activeJob, jobCount))
 
-            const dataSource = await DataStore.getDataSource(activeJob.dataSourceId)
-            const dsConnector = DSConnectorRegistry.getDataSourceConnector(dataSource)
+            const dsConnector = await DSConnectorRegistry.getDataSourceConnector(activeJob.dataSourceId)
             await dsConnector.handleJob(activeJob)
 
             await DataStore.removeJob(activeJob._id)

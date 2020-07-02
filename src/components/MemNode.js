@@ -3,6 +3,7 @@ import './MemNode.css'
 import MiniAnnotations from './MiniAnnotations'
 import { Icon } from "@blueprintjs/core"
 import { IconNames } from "@blueprintjs/icons";
+import DSConnectorRegistry from "../DSConnectorRegistry";
 const path = require('path')
 
 export default function MemNode(props) {
@@ -19,7 +20,7 @@ export default function MemNode(props) {
 
             <div className='mem-text'>
                 <span className="ds-icon-container">
-                    <Icon style={{ color: "#ced9e0"}} icon={IconNames.GLOBE_NETWORK} iconSize={20} />
+                    <Icon style={{ color: "#ced9e0"}} icon={DSConnectorRegistry.getDataSourceIcon(props.mem.dataSourceId)} iconSize={20} />
                 </span>
                 {props.mem.name}
             </div>
