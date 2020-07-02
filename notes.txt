@@ -1,17 +1,22 @@
+- Show full trees for each data source when there is no search text
+- "New Items" button/count indicator/dialog
+	List of new mems for each data source (e.g. if a new item was added to their bookmark's file)
+	Quick UI for adding notes/tags to items from here
+	Button to "mark all as seen"
+
 - Clean up and document code
 	-document DataStore/DataSourceWorkPump/DataSourceConnector etc.
 	-fix warnings
 
-- Implement LocalDirectoryDSC
-- Think about sync workflow: maybe just do it every 10 seconds
-	- Show pop-up when new items are discovered during sync
-	- Make it optional to actually delete items removed from data source (e.g. if I delete a bookmark in Chrome, I should be able to keep it in this app [perhaps it should become associated with faux/native/default "data source" at that point])
-- Show annotations indicators in search results + button to show annotations panel
+- Finish LocalDirectoryDSC
+	- Think about sync workflow: maybe just do it every 10 seconds
+		- Show pop-up when new items are discovered during sync
+		- Make it optional to actually delete items removed from data source (e.g. if I delete a bookmark in Chrome, I should be able to keep it in this app [perhaps it should become associated with faux/native/default "data source" at that point])
 - Get "download fresh version" to work
 - Begin TypeScript re-write
 
 Ensure database contents will be safely preserved:
-	- Save to local file rather than IndexedDB
+	- Allow specifying a custom location (so it could e.g. be backed up by Dropbox)
 	- Think about handling migrations
 
 
