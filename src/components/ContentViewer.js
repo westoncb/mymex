@@ -58,7 +58,7 @@ export default function ContentViewer(props) {
                         <Button className="toolbar-button"><Icon icon={IconNames.HISTORY} iconSize={36} /></Button>
                     </Tooltip>
                     <Tooltip content="Open in browser" position={Position.BOTTOM}>
-                        <Button className="toolbar-button" style={{ marginLeft: "1rem" }}><Icon icon={IconNames.APPLICATION} iconSize={36} /></Button>
+                        <Button className="toolbar-button" onClick={() => electron.shell.openExternal(remotePath)} style={{ marginLeft: "1rem" }}><Icon icon={IconNames.APPLICATION} iconSize={36} /></Button>
                     </Tooltip>
                 </div>
                 <div style={{ display: "flex", alignItems: "flex-end" }}>
